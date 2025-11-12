@@ -1,0 +1,31 @@
+@import "tailwindcss";
+/* Le plugin Vite v4 s'en occupe. */
+
+/* Font imports */
+@font-face {
+  font-family: 'dunbartall';
+  src: url('../fonts/dunbar-tall-ultra.woff2') format('woff2'),
+       url('../fonts/dunbar-tall-ultra.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'dunbartext';
+  src: url('../fonts/dunbar-text-bold.woff2') format('woff2'),
+       url('../fonts/dunbar-text-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.font-dunbartall {
+  font-family: "dunbartall", sans-serif;
+}
+
+.font-dunbartext {
+  font-family: "dunbartext", sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+/* Assurez-vous que l'accolade en trop à la fin a été supprimée */

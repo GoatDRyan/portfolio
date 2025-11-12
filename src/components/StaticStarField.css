@@ -1,0 +1,28 @@
+/* Couleur de fond principale (noir-bleu) */
+.stars-background-random {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    background-color: #000000;
+    overflow: hidden;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 100%;
+    box-shadow: 0 0 4px 1px rgb(255, 255, 255);
+
+    animation-name: twinkle;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+}
