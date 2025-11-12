@@ -2,13 +2,21 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
+// Composant réutilisable pour les sections de projet
 const ProjectSection = ({ title, children, delay = 0 }) => (
   <motion.div
-    className="bg-white/5 p-6 rounded-2xl shadow-lg backdrop-blur-sm"
+    className="bg-white/20 p-6 rounded-2xl shadow-lg backdrop-blur-sm"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
+    // Transition pour l'apparition (initial/whileInView)
     transition={{ duration: 0.5, delay: delay }}
     viewport={{ once: true }}
+    // Animation de survol corrigée : la transition est définie DANS whileHover
+    whileHover={{ 
+        scale: 1.01, 
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+        transition: { duration: 0.2 } // Transition spécifique pour le survol
+    }}
   >
     <h2 className="text-3xl font-dunbartall mb-4">{title}</h2>
     <div className="font-dunbartext text-white/80 space-y-4">
@@ -72,7 +80,7 @@ export default function BikeRepair() {
 
         {/* --- Image Principale --- */}
         <motion.div 
-          className="bg-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm mb-12"
+          className="bg-white/10 p-4 rounded-2xl shadow-lg backdrop-blur-sm mb-12"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -140,16 +148,24 @@ export default function BikeRepair() {
             {galleryImages.map((image, index) => (
               <motion.div 
                 key={index}
-                className="bg-white/5 p-3 rounded-2xl shadow-lg backdrop-blur-sm"
+                className="bg-white/5 p-3 rounded-2xl shadow-lg backdrop-blur-sm group cursor-pointer"
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                // Animation de survol pour les images de la galerie
+                whileHover={{ 
+                    scale: 1.05, 
+                    boxShadow: "0 15px 25px rgba(0, 0, 0, 0.3)",
+                    transition: { duration: 0.2 } // Transition spécifique pour le survol
+                }}
+                whileTap={{ scale: 0.98 }}
               >
                 <img 
                   src={image.src} 
                   alt={image.alt} 
-                  className="rounded-lg w-full h-auto object-cover"
+                  // Légère animation de l'image à l'intérieur de la boîte au survol
+                  className="rounded-lg w-full h-auto object-cover transition-transform duration-300 group-hover:scale-100"
                 />
                 <p className="font-dunbartext text-sm text-white/70 mt-2">{image.caption}</p>
               </motion.div>
@@ -168,7 +184,18 @@ export default function BikeRepair() {
           </ul>
         </ProjectSection>
 
-        {/* Lien de retour final */}
+        {/* Lien de retour final (optionnel) */}
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <Link to="/" className="text-white/90 hover:text-white underline font-dunbartext transition-colors">
+            ← Retour à l'accueil
+          </Link>
+        </motion.div>
 
       </motion.div>
     </div>

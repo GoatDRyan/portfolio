@@ -235,7 +235,7 @@ export default function Home() {
                 <div className="space-y-6">
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">React.js</span>
+                      <span className="text-white/80 font-dunbartall">React.js</span>
                     </div>
                     <p className="text-white/60 text-sm">Création d'applications web dynamiques et interactives</p>
                   </div>

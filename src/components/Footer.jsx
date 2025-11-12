@@ -65,9 +65,9 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
           viewport={{ once: true }}
-          className="mt-20 pt-8 border-t border-white/20 text-center"
+          className="mt-20 pt-8 border-t border-white text-center"
         >
-          <p className="text-white/60 font-dunbartext text-sm">
+          <p className="text-white font-dunbartext text-sm">
             &copy; {new Date().getFullYear()} Ryan Mumbata. Tous droits réservés.
           </p>
         </motion.div>
