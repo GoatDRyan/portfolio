@@ -47,7 +47,7 @@ export default function Navbar() {
         </Link>
 
         {/* Liens de navigation desktop */}
-        <div className="text-xl text-white font-dunbartall hidden md:flex items-center md:gap-5 lg:gap-8 xl:gap-12 2xl:gap-16">
+        <div className="bg-white/35 md:bg-none p-5 rounded-2xl text-xl text-white font-dunbartall hidden md:flex items-center md:gap-5 lg:gap-8 xl:gap-12 2xl:gap-16">
           <Link 
             to="/" 
             onClick={(e) => handleAnchorClick(e, 'root')} 

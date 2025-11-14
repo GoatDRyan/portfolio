@@ -1,28 +1,47 @@
-/* Couleur de fond principale (noir-bleu) */
+/* Le conteneur principal des étoiles, qui sert de fond d'écran */
 .stars-background-random {
+    /* Positionnement fixe pour couvrir tout le viewport */
     position: fixed;
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
+    /* Place le fond derrière tout le contenu de l'application */
     z-index: -10;
-    background: radial-gradient(ellipse at center, #6366f1, #000000);
+    /* Dégradé de violet (couleur Indigo de Tailwind, #6366f1) au noir */
+    background: radial-gradient(ellipse at center, #6366f1 0%, #000000 75%);
     overflow: hidden;
 }
 
-@keyframes twinkle {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-
+/* Style de chaque étoile générée par le composant React */
 .star {
-    position: absolute;
+    /* Rend l'étoile visible */
     background-color: white;
-    border-radius: 100%;
-    box-shadow: 0 0 4px 1px rgb(255, 255, 255);
-
-    animation-name: twinkle;
-    animation-timing-function: linear;
+    /* Permet de positionner l'étoile avec top/left générés aléatoirement */
+    position: absolute;
+    /* Forme circulaire */
+    border-radius: 50%;
+    /* Démarre l'animation de scintillement (pulsation) */
+    animation-name: fadeOut;
+    animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
-
 }
+
+/* L'animation de pulsation (scintillement) */
+@keyframes fadeOut {
+    /* L'étoile est à taille normale et partiellement opaque (visible) */
+    0% { transform: scale(1); opacity: 0.8; }
+    /* L'étoile s'agrandit légèrement et devient complètement transparente (s'estompe) */
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* L'élément #bg-canvas n'est pas utilisé dans le composant React StaticStarField. */
+/* Je le commente ici pour qu'il ne cause pas de confusion, mais je le laisse pour référence. */
+/*
+#bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 0;
+}
+*/
