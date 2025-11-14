@@ -227,35 +227,35 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/30 transition-colors duration-300"
+                className="border-3 border-white bg-white/5 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/30 transition-colors duration-300"
               >
                 <div className="flex items-center mb-4">
-                  <h3 className="text-xl font-dunbartall text-white">Développement Front-end</h3>
+                  <h3 className="text-xl font-dunbartall text-white underline">Développement Front-end</h3>
                 </div>
                 <div className="space-y-6">
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-dunbartall">React.js</span>
+                      <span className="text-white font-dunbartall">React.js</span>
                     </div>
-                    <p className="text-white/60 text-sm">Création d'applications web dynamiques et interactives</p>
+                    <p className="text-white/80 text-sm ">Création d'applications web dynamiques et interactives</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">TailwindCSS</span>
+                      <span className="text-white font-dunbartall">TailwindCSS</span>
                     </div>
-                    <p className="text-white/60 text-sm">Design responsive et composants réutilisables</p>
+                    <p className="text-white/80 text-sm">Design responsive et composants réutilisables</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">JavaScript</span>
+                      <span className="text-white font-dunbartall">JavaScript</span>
                     </div>
-                    <p className="text-white/60 text-sm">Développement front-end et logique applicative</p>
+                    <p className="text-white/80 text-sm">Développement front-end et logique applicative</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">CSS</span>
+                      <span className="text-white font-dunbartall">CSS</span>
                     </div>
-                    <p className="text-white/60 text-sm"> Mise en page et animations avancées</p>
+                    <p className="text-white/80 text-sm"> Mise en page et animations avancées</p>
                   </div>
                 </div>
               </motion.div>
@@ -266,35 +266,35 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/30 transition-colors duration-300"
+                className="border-3 border-white bg-white/5 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/30 transition-colors duration-300"
               >
                 <div className="flex items-center mb-4">
-                  <h3 className="text-xl font-dunbartall text-white">Design</h3>
+                  <h3 className="text-xl font-dunbartall text-white underline">Design</h3>
                 </div>
                 <div className="space-y-6">
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">Figma</span>
+                      <span className="text-white font-dunbartall">Figma</span>
                     </div>
-                    <p className="text-white/60 text-sm">Design d'interface et prototypage interactif</p>
+                    <p className="text-white/80 text-sm">Design d'interface et prototypage interactif</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">Photoshop</span>
+                      <span className="text-white font-dunbartall">Photoshop</span>
                     </div>
-                    <p className="text-white/60 text-sm">Retouche photo et création graphique</p>
+                    <p className="text-white/80 text-sm">Retouche photo et création graphique</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">Illustrator</span>
+                      <span className="text-white font-dunbartall">Illustrator</span>
                     </div>
-                    <p className="text-white/60 text-sm">Création de logos et illustrations vectorielles</p>
+                    <p className="text-white/80 text-sm">Création de logos et illustrations vectorielles</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">Blender</span>
+                      <span className="text-white font-dunbartall">Blender</span>
                     </div>
-                    <p className="text-white/60 text-sm">Modélisation et rendu 3D</p>
+                    <p className="text-white/80 text-sm">Modélisation et rendu 3D</p>
                   </div>
                 </div>
               </motion.div>
@@ -305,35 +305,35 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/30 transition-colors duration-300 md:col-span-2 lg:col-span-1"
+                className="border-3 border-white bg-white/5 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/30 transition-colors duration-300 md:col-span-2 lg:col-span-1"
               >
                 <div className="flex items-center mb-4">
-                  <h3 className="text-xl font-dunbartall text-white">Production Audiovisuelle</h3>
+                  <h3 className="text-xl font-dunbartall text-white underline">Production Audiovisuelle</h3>
                 </div>
                 <div className="space-y-6">
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">Premiere Pro</span>
+                      <span className="text-white font-dunbartall">Premiere Pro</span>
                     </div>
-                    <p className="text-white/60 text-sm">Montage vidéo et post-production</p>
+                    <p className="text-white/80 text-sm">Montage vidéo et post-production</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80">After Effects(!)</span>
+                      <span className="text-white font-dunbartall">After Effects</span>
                     </div>
-                    <p className="text-white/60 text-sm">Animation et effets visuels</p>
+                    <p className="text-white/80 text-sm">Animation et effets visuels</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">DaVinci Resolve(!)</span>
+                      <span className="text-white font-dunbartall">DaVinci Resolve</span>
                     </div>
-                    <p className="text-white/60 text-sm">Étalonnage et correction colorimétrique</p>
+                    <p className="text-white/80 text-sm">Étalonnage et correction colorimétrique</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="text-white/80 font-medium">Audition</span>
+                      <span className="text-white font-dunbartall">Audition</span>
                     </div>
-                    <p className="text-white/60 text-sm">Édition et mixage audio</p>
+                    <p className="text-white/80 text-sm">Édition et mixage audio</p>
                   </div>
                 </div>
               </motion.div>
@@ -356,7 +356,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="px-4 py-2 bg-white/10 rounded-full text-white/70 text-sm hover:bg-white/30 transition-colors duration-300"
+                    className="border-3 border-white px-4 py-2 bg-white/10 rounded-full text-white font-dunbartext hover:border-white/50 hover:bg-white/30 transition-colors duration-300"
                   >
                     {tech}
                   </motion.span>

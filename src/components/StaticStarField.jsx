@@ -9,13 +9,13 @@ const CanvasStarfield = () => {
         const height = window.innerHeight;
         setDimensions({ width, height });
         
-        const numStars = 80;
+        const numStars = 100;
         const newStars = [];
         for (let i = 0; i < numStars; i++) {
             newStars.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                speed: 0.2 + Math.random() * 0.5,
+                speed: 0.001 + Math.random() * 0.08,
                 size: 1 + Math.random() * 2,
             });
         }

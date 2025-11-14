@@ -19,12 +19,10 @@ export default function Navbar() {
   }, [isOpen]);
 
   const handleAnchorClick = (e, anchorId) => {
-    setIsOpen(false); // Ferme le menu mobile
-    
-    // Si on est déjà sur la page d'accueil
+    setIsOpen(false);
+
     if (location.pathname === "/") {
-      e.preventDefault(); // Empêche la navigation
-      // Fait défiler manuellement
+      e.preventDefault();
       const element = document.getElementById(anchorId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -41,45 +39,45 @@ export default function Navbar() {
             className="w-14 xl:w-16 2xl:w-20"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            src="/logo.png" 
+            src="/logo.svg" 
             alt="Logo"
           />
         </Link>
 
         {/* Liens de navigation desktop */}
-        <div className="bg-white/35 md:bg-none p-5 rounded-2xl text-xl text-white font-dunbartall hidden md:flex items-center md:gap-5 lg:gap-8 xl:gap-12 2xl:gap-16">
+        <div className="border-3 bg-white/35 md:bg-none p-5 rounded-2xl text-xl text-white font-dunbartall hidden md:flex items-center md:gap-5 lg:gap-8 xl:gap-12 2xl:gap-16">
           <Link 
             to="/" 
             onClick={(e) => handleAnchorClick(e, 'root')} 
-            className="hover:text-gray-300 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
+            className="hover:text-gray-800 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
           >
             Accueil
           </Link>
           <Link 
             to="/#about" 
             onClick={(e) => handleAnchorClick(e, 'about')}
-            className="hover:text-gray-300 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
+            className="hover:text-gray-800 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
           >
             À propos de moi
           </Link>
           <Link 
             to="/#competences" 
             onClick={(e) => handleAnchorClick(e, 'competences')}
-            className="hover:text-gray-300 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
+            className="hover:text-gray-800 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
           >
             Compétences
           </Link>
           <Link 
             to="/#projet" 
             onClick={(e) => handleAnchorClick(e, 'projet')}
-            className="hover:text-gray-300 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
+            className="hover:text-gray-800 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
           >
             Projets
           </Link>
           <Link 
             to="/#contact" 
             onClick={(e) => handleAnchorClick(e, 'contact')}
-            className="hover:text-gray-300 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
+            className="hover:text-gray-800 transition-colors duration-200 text-lg xl:text-xl 2xl:text-2xl"
           >
             Contact
           </Link>
