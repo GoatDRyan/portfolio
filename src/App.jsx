@@ -26,7 +26,7 @@ export default function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // replace with your real preload logic
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
