@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.17 10.79">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: .08px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: .1px;
+      }
+    </style>
+  </defs>
+  <path class="cls-2" d="M4.59.65s2.95-1.71,5.53,1.24c0,0,1.58,1.88.77,5.36,0,0-.29.97-.37,1.12,0,0,.19.13-.06.25l-8.14,2.06s-.69.27-.73-.41c0,0,.06-1.39.26-1.79,0,0,.21-.59.85-.62l1.1-.16-.13-1.9s-.1-.61.51-.69c0,0-.49.08-1.05-.19L.13,2.86s-.26-.11.14-.41C.27,2.45,2.46.55,3.56.12c0,0,.03-.22.49.13,0,0,.44.26.53.4Z"/>
+  <path class="cls-2" d="M4.06,5.14s1.07-.23,1.78-.94c0,0,.26-.49.64-.29l.39.26s.57.4,1.09-.07c0,0,.39-.55-.01-1.02L3.72.06"/>
+  <path class="cls-2" d="M7.23,4.31s-.72.06-.45.75c0,0,.26,1.5-.97,2.31,0,0-.32.27-1.44.45,0,0-.78.05-.77,1.01l-.1.75s0,.75.64.64"/>
+  <circle class="cls-2" cx="6.18" cy="8.72" r=".43"/>
+  <circle class="cls-1" cx="6.18" cy="8.72" r=".15"/>
+  <ellipse class="cls-3" cx="3.82" cy="7.73" rx=".02" ry=".03" transform="translate(-4.59 5.85) rotate(-51.13)"/>
+  <circle class="cls-3" cx="10.5" cy="8.4" r=".05"/>
+  <circle class="cls-3" cx="10.52" cy="8.4" r=".05"/>
+  <circle class="cls-3" cx="3.59" cy=".11" r=".05"/>
+  <circle class="cls-3" cx="3.64" cy=".09" r=".05"/>
+  <circle class="cls-3" cx="3.61" cy=".1" r=".05"/>
+  <circle class="cls-3" cx="3.67" cy=".08" r=".05"/>
+  <circle class="cls-3" cx="3.69" cy=".08" r=".05"/>
+</svg>
