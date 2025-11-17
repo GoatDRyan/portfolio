@@ -6,7 +6,7 @@ export default function Footer() {
     <footer id="contact" className="relative py-20 text-white overflow-hidden z-10">
       {/* Fond dégradé pour le footer */}
       <div 
-        className="absolute inset-0 bg-linear-to-b from-transparent via-black/30 to-black/50" 
+        className="absolute inset-0 bg-linear-to-b from-transparent via-black/50 to-black/70" 
         aria-hidden="true" 
       />
 
@@ -53,7 +53,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="hover:bg-white hover:text-black drop-shadow-lg text-white border-2 border-solid font-dunbartext py-3 px-8 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-auto text-center"
+            className="bg-white/15 hover:bg-white/50 drop-shadow-lg text-white border-2 border-solid font-dunbartext py-3 px-8 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-auto text-center"
           >
             Mon LinkedIn
           </motion.a> 

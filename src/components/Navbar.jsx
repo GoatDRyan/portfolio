@@ -39,13 +39,13 @@ export default function Navbar() {
             className="w-14 xl:w-16 2xl:w-20"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            src="/logo.svg" 
+            src="./logo.svg" 
             alt="Logo"
           />
         </Link>
 
         {/* Liens de navigation desktop */}
-        <div className="border-3 bg-white/35 md:bg-none p-5 rounded-2xl text-xl text-white font-dunbartall hidden md:flex items-center md:gap-5 lg:gap-8 xl:gap-12 2xl:gap-16">
+        <div className="backdrop-blur-sm border-3 bg-white/35 md:bg-none p-5 rounded-2xl text-xl text-white font-dunbartall hidden md:flex items-center md:gap-5 lg:gap-8 xl:gap-12 2xl:gap-16">
           <Link 
             to="/" 
             onClick={(e) => handleAnchorClick(e, 'root')} 

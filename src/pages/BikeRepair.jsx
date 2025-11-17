@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 // Composant réutilisable pour les sections de projet
 const ProjectSection = ({ title, children, delay = 0 }) => (
   <motion.div
-    className="bg-white/20 p-6 rounded-2xl shadow-lg backdrop-blur-sm"
+    className="bg-white/20 p-6 rounded-2xl shadow-lg backdrop-blur-sm border-3 border-white"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     // Transition pour l'apparition (initial/whileInView)
@@ -59,7 +59,7 @@ export default function BikeRepair() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {/* En-tête du projet */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-20">
           <motion.h1 
             className="text-5xl md:text-6xl font-dunbartall mb-4"
             initial={{ opacity: 0, y: 30 }}
@@ -80,15 +80,14 @@ export default function BikeRepair() {
 
         {/* --- Image Principale --- */}
         <motion.div 
-          className="bg-white/10 p-4 rounded-2xl shadow-lg backdrop-blur-sm mb-12"
+          className="bg-white/15 p-4 rounded-2xl shadow-lg backdrop-blur-sm mb-12 border-3 border-white"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.2, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          {/* J'utilise l'image de votre page d'accueil */}
           <img 
-            src="/bike-repair.png" 
+            src="./bike-repair.png" 
             alt="Présentation du projet Bike Repair" 
             className="rounded-lg w-full h-auto object-cover"
           />

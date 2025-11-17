@@ -28,7 +28,7 @@ export default function Home() {
   const projects = [
     { 
       title: 'Bike Repair',
-      img: '/bike-repair.png',
+      img: './bike-repair.png',
       to: '/bike-repair',
       gridClass: 'col-span-2 md:col-span-2 lg:col-span-2',
       containerClass: 'h-48 md:h-56',
@@ -36,7 +36,7 @@ export default function Home() {
     },
     { 
       title: 'Barbie',
-      img: '/barbie.jpg',
+      img: './barbie.jpg',
       to: '/barbie',
       gridClass: 'col-span-1',
       containerClass: 'h-48 md:h-56',
@@ -44,7 +44,7 @@ export default function Home() {
     },
     { 
       title: 'Casque',
-      img: '/casque.jpg',
+      img: './casque.jpg',
       to: '/casque',
       gridClass: 'col-span-1',
       containerClass: 'h-48 md:h-56',
@@ -52,7 +52,7 @@ export default function Home() {
     },
     { 
       title: 'Marlowe',
-      img: '/marlowe.png',
+      img: './marlowe.png',
       to: '/marlowe',
       gridClass: 'col-span-1 md:col-span-2',
       containerClass: 'h-48 md:h-56',
@@ -60,7 +60,7 @@ export default function Home() {
     },
     { 
       title: 'SAE203',
-      img: '/sae203.png',
+      img: './sae203.png',
       to: '/sae203',
       gridClass: 'col-span-1 md:col-span-2',
       containerClass: 'h-48 md:h-56',
@@ -81,7 +81,7 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
-            <img src="/casque.svg" alt="" className="w-full h-full" aria-hidden="true" />
+            <img src="./casque.svg" alt="" className="w-full h-full" aria-hidden="true" />
           </motion.div>
 
           <motion.h1
@@ -103,7 +103,7 @@ export default function Home() {
           </motion.p>
 
           <motion.div
-           className="flex gap-6 md:gap-8 mt-8"
+           className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 mt-8"
            initial={{ opacity: 0, y: 20 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ delay: 0.6, duration: 1 }}
@@ -117,7 +117,7 @@ export default function Home() {
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-black drop-shadow-lg font-dunbartext py-2 px-6 lg:py-3 lg:px-8 rounded text-base md:text-lg lg:text-xl transition-colors duration-200 cursor-pointer"
+              className="bg-white text-black drop-shadow-lg font-dunbartext py-3 px-8 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-auto text-center"
             >
               Qui suis-je ?
             </motion.a>
@@ -130,7 +130,7 @@ export default function Home() {
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="hover:bg-white hover:text-black drop-shadow-lg text-white border-2 border-solid font-dunbartext py-2 px-6 lg:py-3 lg:px-8 rounded text-base md:text-lg lg:text-xl transition-colors duration-200 cursor-pointer"
+              className="bg-white/15 hover:bg-white/50 drop-shadow-lg text-white border-2 border-solid font-dunbartext py-3 px-8 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-auto text-center"
             >
               Projets
             </motion.a>
@@ -159,7 +159,7 @@ export default function Home() {
                   className="relative z-10"
                 >
                   <img
-                    src="/moi.jpg"
+                    src="./moi.jpg"
                     alt="Ryan Mumbata"
                     className="rounded-2xl w-full aspect-3/4 object-cover shadow-2xl"
                   />
@@ -176,10 +176,10 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
                 viewport={{ once: true }}
-                className="text-white p-6 rounded-2xl border-3 shadow-lg"
+                className="text-white p-6 rounded-2xl border-3 shadow-lg border-white bg-white/5 backdrop-blur-sm"
               >
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-dunbartall mb-6">À propos de moi</h2>
-                <p className="text-lg font-dunbartext mb-6 text-white">
+                <p className="text-lg font-dunbartext mb-6 text-white bg">
                   Étudiant en Bachelor Universitaire de Technologie Métiers du Multimédia et de l'Internet (BUT MMI), 
                   je développe mes compétences dans les domaines du web, du design graphique, de la communication digitale 
                   et de la production audiovisuelle.

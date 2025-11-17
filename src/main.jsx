@@ -1,12 +1,11 @@
 // src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 
-// 1. Importer les composants
-import App from './App'; // Le layout (coquille)
-import Home from './pages/Home'; // Page d'accueil
-import BikeRepair from './pages/BikeRepair'; // Page projet
+import App from './App';
+import Home from './pages/Home';
+import BikeRepair from './pages/BikeRepair';
 import Barbie from './pages/Barbie';
 import Casque from './pages/Casque';
 import Marlowe from './pages/Marlowe';
@@ -15,18 +14,17 @@ import SAE203 from './pages/SAE203';
 import './index.css';
 
 // 2. Définir les routes
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
-    element: <App />, // Le layout <App /> est l'élément parent
-    // children (enfants) s'afficheront dans l' <Outlet /> de App
+    element: <App />,
     children: [
       {
-        path: "/", // Page d'accueil
+        path: "/",
         element: <Home />,
       },
       {
-        path: "/bike-repair", // Page projet
+        path: "/bike-repair",
         element: <BikeRepair />,
       },
       {
@@ -54,7 +52,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-// 3. Fournir le routeur à l'application
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />

@@ -79,7 +79,7 @@ const ThreeScene = () => {
       
       // Assurez-vous que votre fichier /casque.glb est dans le dossier /public
       loader.load(
-        '/casque.glb', // <<< VOTRE FICHIER .glb ICI
+        './casque.glb', // <<< VOTRE FICHIER .glb ICI
         (gltf) => {
           // Succès ! Le modèle est chargé
           const model = gltf.scene;
@@ -183,7 +183,7 @@ export default function Casque() {
   // J'ai ajouté votre image principale à la galerie
   const galleryImages = [
     {
-      src: "/casque.jpg", // Votre image principale
+      src: "./casque.jpg", // Votre image principale
       alt: "Rendu principal du casque",
       caption: "Rendu Principal (Cycles)"
     },
@@ -315,6 +315,7 @@ export default function Casque() {
                   src={image.src} 
                   alt={image.alt} 
                   className="rounded-lg w-full h-auto object-cover"
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://placehold.co/600x400?text=Image'; }}
                 />
                 <p className="font-dunbartext text-sm text-white/70 mt-2">{image.caption}</p>
               </motion.div>
