@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import StaticStarField from "./components/StaticStarField.jsx";
 import Loader from "./components/Loader.jsx";
+import AppReadyContext from './context/AppReadyContext.jsx';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -31,7 +32,10 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const appReady = !isLoading;
+
   return (
+    <AppReadyContext.Provider value={appReady}>
     <div className="min-h-screen flex flex-col relative">
       {/* Background starfield always rendered under everything */}
       <StaticStarField />
@@ -85,5 +89,6 @@ export default function App() {
 
       <ScrollToTop />
     </div>
+    </AppReadyContext.Provider>
   );
 }

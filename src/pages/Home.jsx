@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import AppReadyContext from '../context/AppReadyContext.jsx';
 
 const ScrollToAnchor = () => {
   const location = useLocation();
@@ -23,7 +24,7 @@ const ScrollToAnchor = () => {
 };
 
 export default function Home() {
-  ScrollToAnchor();
+  const appReady = useContext(AppReadyContext);
 
   const projects = [
     { 
@@ -70,6 +71,7 @@ export default function Home() {
 
   return (
     <>
+      <ScrollToAnchor />
       {/* Contenu principal */}
       <main className="flex-1 flex flex-col">
         {/* Hero Section avec dégradé animé */}
@@ -78,7 +80,7 @@ export default function Home() {
           <motion.div 
             className="absolute right-45 top-1/4 md:top-1/2 -translate-y-1/2 w-[40vw] md:w-[20vw] max-w-md text-white/10 -rotate-14"
             initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={appReady ? { opacity: 1, x: 0 } : undefined}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
             <img src="./casque.svg" alt="" className="w-full h-full" aria-hidden="true" />
@@ -87,7 +89,7 @@ export default function Home() {
           <motion.h1
             className="text-5xl md:text-6xl lg:text-7xl font-dunbartall mb-4 drop-shadow-lg max-w-[90vw] relative z-10"
             initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={appReady ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 1 }}
           >
               Ryan Mumbata
@@ -96,7 +98,7 @@ export default function Home() {
           <motion.p
             className="text-lg md:text-xl lg:text-2xl max-w-xl lg:max-w-2xl font-dunbartext drop-shadow-lg"
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={appReady ? { opacity: 1, y: 0 } : undefined}
             transition={{ delay: 0.3, duration: 1 }}
           >
               Je joue à F1 25 et ça m'arrive de coder des trucs...
@@ -105,7 +107,7 @@ export default function Home() {
           <motion.div
            className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 mt-8"
            initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
+           animate={appReady ? { opacity: 1, y: 0 } : undefined}
            transition={{ delay: 0.6, duration: 1 }}
           >
             {/* Ce bouton est maintenant un <Link> pour le scroll */}
@@ -142,9 +144,9 @@ export default function Home() {
           <div className="absolute inset-0" />
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
+              <motion.div
               initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
               className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center"
@@ -209,7 +211,7 @@ export default function Home() {
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
               className="text-center mb-12"
@@ -372,18 +374,14 @@ export default function Home() {
           <div className="absolute inset-0" />
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
+            <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={appReady ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 0.6 }}>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-dunbartall text-white mb-4">Mes Projets</h2>
               <p className="text-lg text-white/80 font-dunbartext max-w-2xl mx-auto">
                 Une sélection de mes projets récents dans différents domaines du multimédia.
               </p>
             </motion.div>
+
+            {/* Projects grid (original layout) */}
 
             {/* ---------- VOICI LA CORRECTION ---------- */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -391,7 +389,7 @@ export default function Home() {
                 <motion.div
                   key={p.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
                   transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
                   className={`group ${p.gridClass}`}

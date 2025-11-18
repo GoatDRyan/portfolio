@@ -1,29 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import AppReadyContext from '../context/AppReadyContext.jsx';
 
 // Composant réutilisable pour les sections de projet
-const ProjectSection = ({ title, children, delay = 0 }) => (
-  <motion.div
-    className="bg-white/20 p-6 rounded-2xl shadow-lg backdrop-blur-sm border-3 border-white"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    // Transition pour l'apparition (initial/whileInView)
-    transition={{ duration: 0.5, delay: delay }}
-    viewport={{ once: true }}
-    // Animation de survol corrigée : la transition est définie DANS whileHover
-    whileHover={{ 
-        scale: 1.01, 
-        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
-        transition: { duration: 0.2 } // Transition spécifique pour le survol
-    }}
-  >
-    <h2 className="text-3xl font-dunbartall mb-4">{title}</h2>
-    <div className="font-dunbartext text-white/80 space-y-4">
-      {children}
-    </div>
-  </motion.div>
-);
+const ProjectSection = ({ title, children, delay = 0 }) => {
+  const appReady = useContext(AppReadyContext);
+  return (
+    <motion.div
+      className="bg-white/20 p-6 rounded-2xl shadow-lg backdrop-blur-sm border-3 border-white"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
+      // Transition pour l'apparition (initial/whileInView)
+      transition={{ duration: 0.5, delay: delay }}
+      viewport={{ once: true }}
+      // Animation de survol corrigée : la transition est définie DANS whileHover
+      whileHover={{ 
+          scale: 1.01, 
+          boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+          transition: { duration: 0.2 } // Transition spécifique pour le survol
+      }}
+    >
+      <h2 className="text-3xl font-dunbartall mb-4">{title}</h2>
+      <div className="font-dunbartext text-white/80 space-y-4">
+        {children}
+      </div>
+    </motion.div>
+  );
+};
 
 export default function BikeRepair() {
   useEffect(() => {
@@ -43,8 +47,8 @@ export default function BikeRepair() {
     },
     {
       src: "https://placehold.co/600x400/1a1a1a/ffffff?text=Post+Instagram",
-      alt: "Post réseaux sociaux",
-      caption: "Réseaux Sociaux"
+      alt: "Maquette du site web",
+      caption: "Maquette du site web"
     }
   ];
 
@@ -54,16 +58,16 @@ export default function BikeRepair() {
       {/* Conteneur principal centré avec animation */}
       <motion.div 
         className="container mx-auto max-w-4xl"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={useContext(AppReadyContext) ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {/* En-tête du projet */}
         <div className="text-center mb-12 mt-20">
           <motion.h1 
             className="text-5xl md:text-6xl font-dunbartall mb-4"
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={useContext(AppReadyContext) ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.6 }}
           >
             The Bike Repair
@@ -71,7 +75,7 @@ export default function BikeRepair() {
           <motion.p 
             className="text-xl font-dunbartext text-white/80 mb-6"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={useContext(AppReadyContext) ? { opacity: 1 } : undefined}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             Projet d'identité visuelle
@@ -82,7 +86,7 @@ export default function BikeRepair() {
         <motion.div 
           className="bg-white/15 p-4 rounded-2xl shadow-lg backdrop-blur-sm mb-12 border-3 border-white"
           initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          whileInView={useContext(AppReadyContext) ? { opacity: 1, scale: 1 } : undefined}
           transition={{ duration: 0.2, delay: 0.2 }}
           viewport={{ once: true }}
         >
@@ -130,13 +134,11 @@ export default function BikeRepair() {
         {/* Sections "à faire" - J'ai mis des placeholders */}
         <div className="grid md:grid-cols-2 gap-8 my-12">
           <ProjectSection title="Logo & Moodboard" delay={0.5}>
-            <p>Section en cours de construction. J'ajouterai ici le logo final et la planche d'inspiration.</p>
             <img src="moodbord.png" alt="Placeholder Logo" className="rounded-lg w-full h-auto object-cover mt-4" />
           </ProjectSection>
           
           <ProjectSection title="Poster & Flyer" delay={0.6}>
-            <p>Section en cours de construction. J'ajouterai ici les designs d'affiches et de flyers.</p>
-            <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Poster+Flyer" alt="Placeholder Poster" className="rounded-lg w-full h-auto object-cover mt-4" />
+            <img src="flyer.png" alt="Placeholder Poster" className="rounded-lg w-full h-auto object-cover mt-4" />
           </ProjectSection>
         </div>
 
@@ -152,11 +154,10 @@ export default function BikeRepair() {
                 initial={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                // Animation de survol pour les images de la galerie
                 whileHover={{ 
                     scale: 1.05, 
                     boxShadow: "0 15px 25px rgba(0, 0, 0, 0.3)",
-                    transition: { duration: 0.2 } // Transition spécifique pour le survol
+                    transition: { duration: 0.2 }
                 }}
                 whileTap={{ scale: 0.98 }}
               >
