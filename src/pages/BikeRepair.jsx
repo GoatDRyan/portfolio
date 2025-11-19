@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AppReadyContext from '../context/AppReadyContext.jsx';
 
-// Composant réutilisable pour les sections de projet
 const ProjectSection = ({ title, children, delay = 0 }) => {
   const appReady = useContext(AppReadyContext);
   return (
@@ -11,14 +10,12 @@ const ProjectSection = ({ title, children, delay = 0 }) => {
       className="bg-white/20 p-6 rounded-2xl shadow-lg backdrop-blur-sm border-3 border-white"
       initial={{ opacity: 0, y: 20 }}
       whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
-      // Transition pour l'apparition (initial/whileInView)
       transition={{ duration: 0.5, delay: delay }}
       viewport={{ once: true }}
-      // Animation de survol corrigée : la transition est définie DANS whileHover
       whileHover={{ 
           scale: 1.01, 
           boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
-          transition: { duration: 0.2 } // Transition spécifique pour le survol
+          transition: { duration: 0.2 }
       }}
     >
       <h2 className="text-3xl font-dunbartall mb-4">{title}</h2>
@@ -46,9 +43,9 @@ export default function BikeRepair() {
       caption: "Flyer"
     },
     {
-      src: "https://placehold.co/600x400/1a1a1a/ffffff?text=Post+Instagram",
-      alt: "Maquette du site web",
-      caption: "Maquette du site web"
+      src: "mockup.png",
+      alt: "Mockup",
+      caption: "Mockup"
     }
   ];
 
@@ -175,28 +172,17 @@ export default function BikeRepair() {
 
         {/* Ce que j'ai appris */}
         <ProjectSection title="Ce que j'ai appris" delay={0.7}>
-          <p>
-            Ce projet m'a permis de... (votre texte ici)
-          </p>
           <ul className="list-disc list-inside space-y-2">
-            <li>...</li>
-            <li>...</li>
+            <li>J'ai appris à concevoir une identité qui incarne des valeurs fortes (DIY, communauté, social) en utilisant des 
+              éléments graphiques pour symboliser l'accessibilité et la connexion humaine, tout en répondant à un besoin 
+              fonctionnel (atelier de réparation).
+            </li>
+            <li>
+              J'ai renforcé ma compétence sur la suite Adobe, notamment en utilisant Illustrator pour la création vectorielle
+               du logo et de la charte graphique, et Photoshop pour la mise en page des affiches.
+               </li>
           </ul>
         </ProjectSection>
-
-        {/* Lien de retour final (optionnel) */}
-        <motion.div 
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <Link to="/" className="text-white/90 hover:text-white underline font-dunbartext transition-colors">
-            ← Retour à l'accueil
-          </Link>
-        </motion.div>
-
       </motion.div>
     </div>
   );
