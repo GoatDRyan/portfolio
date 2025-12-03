@@ -1,8 +1,6 @@
-// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
-
 import App from './App';
 import Home from './pages/Home';
 import BikeRepair from './pages/BikeRepair';
@@ -13,7 +11,6 @@ import SAE203 from './pages/SAE203';
 
 import './index.css';
 
-// 2. Définir les routes
 const router = createHashRouter([
   {
     path: "/",
@@ -57,3 +54,31 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
+
+// --- Custom Cursor ---
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button');
+
+window.addEventListener("mousemove", function (e) {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+    }, { duration: 500, fill: "forwards" });
+});
+
+// Effet au survol des liens
+hoverTriggers.forEach(trigger => {
+    trigger.addEventListener('mouseenter', () => {
+        cursorOutline.classList.add('hovered');
+    });
+    trigger.addEventListener('mouseleave', () => {
+        cursorOutline.classList.remove('hovered');
+    });
+});

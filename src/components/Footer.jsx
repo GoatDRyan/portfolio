@@ -1,16 +1,15 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function Footer() {
   return (
-    <footer id="contact" className="relative py-20 text-white overflow-hidden z-10">
+    <footer id="contact" className="relative py-20 text-white overflow-hidden">
       {/* Fond dégradé pour le footer */}
       <div 
         className="absolute inset-0 bg-linear-to-b from-transparent via-black/50 to-black/70" 
         aria-hidden="true" 
       />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         {/* Titre et sous-titre */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

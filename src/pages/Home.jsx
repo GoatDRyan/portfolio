@@ -1,8 +1,9 @@
-import { motion } from "framer-motion";
-import { useEffect, useContext } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import AppReadyContext from '../context/AppReadyContext.jsx';
+import transition from "../context/transition.jsx";
 
+// --- COMPOSANT UTILITAIRE : ScrollToAnchor ---
 const ScrollToAnchor = () => {
   const location = useLocation();
 
@@ -23,64 +24,149 @@ const ScrollToAnchor = () => {
   return null;
 };
 
-export default function Home() {
-  const appReady = useContext(AppReadyContext);
+// --- NOUVEAU COMPOSANT : Carte Projet (Stack Effect) ---
+const Card = ({ i, title, description, tags, img, to, color, progress, range, targetScale }) => {
+  const container = useRef(null);
+  
+  // Animation de l'échelle
+  const scale = useTransform(progress, range, [1, targetScale]);
+
+  return (
+    <div ref={container} className="h-screen flex items-center justify-center sticky top-0">
+      <motion.div 
+        style={{ 
+          scale, 
+          backgroundColor: '#fff',
+          top: `calc(-5vh + ${i * 25}px)` 
+        }}
+        className="flex flex-col relative w-[90vw] md:w-[75vw] lg:w-[1000px] h-[65vh] md:h-[70vh] rounded-3xl border-4 border-gray-900 overflow-hidden shadow-2xl origin-top"
+      >
+        <div className="flex flex-col lg:flex-row h-full">
+          
+          {/* Partie Image */}
+          <div className="w-full lg:w-[60%] h-[45%] lg:h-full relative overflow-hidden group border-b-4 lg:border-b-0 lg:border-r-4 border-gray-900">
+            <div className="w-full h-full overflow-hidden">
+                <motion.img 
+                src={img} 
+                alt={title} 
+                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                />
+            </div>
+            <div 
+              className="absolute inset-0 mix-blend-overlay opacity-0 group-hover:opacity-80 transition-opacity duration-300"
+              style={{ backgroundColor: color }}
+            ></div>
+          </div>
+
+          {/* Partie Texte */}
+          <div className="w-full lg:w-[40%] h-[55%] lg:h-full p-6 lg:p-10 flex flex-col justify-center bg-gray-50 text-gray-900">
+            <span className="font-bold text-xl mb-2 font-dunbartext" style={{ color: color }}>
+              0{i + 1} — Projet
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-dunbartall mb-4 text-gray-900 leading-none">
+              {title}
+            </h2>
+            <p className="text-gray-600 text-sm md:text-base font-dunbartext mb-6 leading-relaxed line-clamp-4 md:line-clamp-none">
+              {description}
+            </p>
+            
+            <div className="flex flex-wrap gap-2 mb-8">
+              {tags.map((tag, idx) => (
+                <span key={idx} className="border border-gray-900 px-3 py-1 rounded-full font-bold text-xs uppercase tracking-wider bg-white">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <Link 
+              to={to} 
+              className="w-fit bg-gray-900 text-white px-6 py-3 rounded-xl font-bold font-dunbartext transition-all hover:-translate-y-1 hover:translate-x-1 border-2 border-transparent"
+              style={{ boxShadow: `5px 5px 0px 0px ${color}` }}
+              onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `8px 8px 0px 0px ${color}`;
+                  e.currentTarget.style.backgroundColor = color;
+                  e.currentTarget.style.borderColor = "#111827"; 
+                  e.currentTarget.style.color = "#111827";
+              }}
+              onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = `5px 5px 0px 0px ${color}`;
+                  e.currentTarget.style.backgroundColor = "#111827";
+                  e.currentTarget.style.borderColor = "transparent";
+                  e.currentTarget.style.color = "#ffffff";
+              }}
+            >
+              Voir le projet
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+// --- PAGE PRINCIPALE ---
+function Home() {
 
   const projects = [
     { 
       title: 'Bike Repair',
+      description: "The Bike Repair est un atelier participatif fictif imaginé autour de deux axes forts : la réparation DIY de vélos et la création de lien social grâce à un espace café. L’objectif était de concevoir une identité visuelle cohérente avec ces valeurs : entraide, pratique, et convivialité.",
+      tags: ["Charte Graphique", "Design", "Logo", "Scolaire"],
       img: './bike-repair.png',
       to: '/bike-repair',
-      gridClass: 'col-span-2 md:col-span-2 lg:col-span-2',
-      containerClass: 'h-48 md:h-56',
-      imgClass: 'object-cover',
+      color: '#f4eae5' 
     },
     { 
       title: 'Barbie',
+      description: "Dans le cadre d’un cours à l’Université de Rouen, Elbeuf, j’ai réalisé deux affiches mettant en scène la poupée Barbie en m’inspirant de son univers pop, coloré et audacieux avec pour objectif de la valoriser en tant qu’icône de mode tout en respectant l’identité visuelle de la marque.",
+      tags: ["Print", "Design", "Scolaire"],
       img: './barbie.jpg',
       to: '/barbie',
-      gridClass: 'col-span-1',
-      containerClass: 'h-48 md:h-56',
-      imgClass: 'object-contain bg-gradient-to-b from-pink-500/5 to-transparent'
+      color: '#ec4899'
     },
     { 
-      title: 'Casque',
+      title: 'Casque Formula 1',
+      description: "Casque de f1",
+      tags: ["3D", "Baking", "Scolaire"],
       img: './casque.jpg',
       to: '/casque',
-      gridClass: 'col-span-1',
-      containerClass: 'h-48 md:h-56',
-      imgClass: 'object-cover'
+      color: '#3b82f6'
     },
     { 
       title: 'Marlowe',
+      description: "Dans le cadre d'un projet, nous avons réalisé en groupe deux scènes inspirées du film noir des années 1950. La première se déroule dans le bureau de l’inspecteur Marlowe qui reçoit une lettre anonyme l’invitant à un rendez-vous nocturne, la seconde montre le meurtre de l’inspecteur à ce rendez-vous.",
+      tags: ["Premier pro", "Film", "Scolaire"],
       img: './marlowe.png',
       to: '/marlowe',
-      gridClass: 'col-span-1 md:col-span-2',
-      containerClass: 'h-48 md:h-56',
-      imgClass: 'object-cover'
+      color: '#f59e0b'
     },
     { 
       title: 'SAE203',
+      description: "Dans le cadre de la SAE203 (Situation d'Apprentissage et d'Évaluation) de mon cursus en Bachelor Universitaire de Technologie Métiers du Multimédia et de l'Internet (BUT MMI), j'ai développé une application web de billetterie en ligne pour la gestion des inscriptions à des événements.",
+      tags: ["Back-end", "HTML/CSS", "PHP","Billeterie" , "Scolaire"],
       img: './sae203.png',
       to: '/sae203',
-      gridClass: 'col-span-1 md:col-span-2',
-      containerClass: 'h-48 md:h-56',
-      imgClass: 'object-cover'
+      color: '#8b5cf6'
     }
   ];
+
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end end']
+  });
 
   return (
     <>
       <ScrollToAnchor />
-      {/* Contenu principal */}
-      <main className="flex-1 flex flex-col">
-        {/* Hero Section avec dégradé animé */}
+      <main className="flex-1 flex flex-col"> 
+        
+        {/* --- 1. HERO SECTION --- */}
         <section id="root" className="relative min-h-screen flex flex-col items-center justify-center text-center text-white gap-5 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          {/* Casque décoratif */}
           <motion.div 
             className="absolute right-45 top-1/4 md:top-1/2 -translate-y-1/2 w-[40vw] md:w-[20vw] max-w-md text-white/10 -rotate-14"
             initial={{ opacity: 0, x: 100 }}
-            animate={appReady ? { opacity: 1, x: 0 } : undefined}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
             <img src="./casque.svg" alt="" className="w-full h-full" aria-hidden="true" />
@@ -89,7 +175,7 @@ export default function Home() {
           <motion.h1
             className="text-5xl md:text-6xl lg:text-7xl font-dunbartall mb-4 drop-shadow-lg max-w-[90vw] relative z-10"
             initial={{ opacity: 0, y: 40 }}
-            animate={appReady ? { opacity: 1, y: 0 } : undefined}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
               Ryan Mumbata
@@ -98,19 +184,18 @@ export default function Home() {
           <motion.p
             className="text-lg md:text-xl lg:text-2xl max-w-xl lg:max-w-2xl font-dunbartext drop-shadow-lg"
             initial={{ opacity: 0, y: 20 }}
-            animate={appReady ? { opacity: 1, y: 0 } : undefined}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 1 }}
           >
               Je joue à F1 25 et ça m'arrive de coder des trucs...
           </motion.p>
 
           <motion.div
-           className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 mt-8"
-           initial={{ opacity: 0, y: 20 }}
-           animate={appReady ? { opacity: 1, y: 0 } : undefined}
-           transition={{ delay: 0.6, duration: 1 }}
+            className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 1 }}
           >
-            {/* Ce bouton est maintenant un <Link> pour le scroll */}
             <motion.a 
               href="#about"
               onClick={(e) => {
@@ -138,21 +223,21 @@ export default function Home() {
             </motion.a>
           </motion.div>
         </section>
-        {/* Section*/}
+
+        {/* --- 2. ABOUT SECTION --- */}
         <section id="about" className="relative min-h-dvh flex items-center justify-center py-12 md:py-20 overflow-hidden">
-          {/* Fond dégradé pour la section About */}
+          {/* Suppression de bg-black ici aussi, le div inset-0 peut servir d'ombre si besoin */}
           <div className="absolute inset-0" />
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
               initial={{ opacity: 0, y: 40 }}
-              whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.3 }}
               className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center"
             >
-              {/* Image et cadre décoratif */}
-              <div className="relative max-w-md mx-auto lg:mx-0">
+              <div className="relative max-w-md mx-auto lg:mx-0 float-anim">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -165,14 +250,11 @@ export default function Home() {
                     alt="Ryan Mumbata"
                     className="rounded-2xl w-full aspect-3/4 object-cover shadow-2xl"
                   />
-                  {/* Cadre décoratif */}
                   <div className="absolute -bottom-4 -right-4 w-full h-full border-2 border-white rounded-2xl -z-10" />
-                  {/* Élément décoratif supplémentaire */}
                   <div className="absolute -top-4 -left-4 w-full h-full border-2 border-white rounded-2xl -z-10" />
                 </motion.div>
               </div>
 
-              {/* Contenu texte */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -186,7 +268,6 @@ export default function Home() {
                   je développe mes compétences dans les domaines du web, du design graphique, de la communication digitale 
                   et de la production audiovisuelle.
                 </p>
-                {/* Bouton CV */}
                 <div className="flex justify-center w-full">
                   <motion.a
                     href="/cv.pdf"
@@ -203,15 +284,14 @@ export default function Home() {
           </div>
         </section>
         
-        {/* Section Compétences */}
+        {/* --- 3. SKILLS SECTION --- */}
         <section id="competences" className="relative min-h-dvh flex items-center justify-center py-16 overflow-hidden">
-          {/* Fond dégradé pour la section Compétences */}
           <div className="absolute inset-0" />
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
               className="text-center mb-12"
@@ -341,7 +421,6 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* Technologies additionnelles */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -368,60 +447,44 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section Projets */}
-        <section id="projet" className="relative min-h-dvh flex items-center justify-center py-16 overflow-hidden">
-          {/* Fond dégradé pour la section Projets */}
-          <div className="absolute inset-0" />
+        {/* --- 4. NEW PROJECTS SECTION (STACK CARDS) --- */}
+        {/* CORRECTION ICI : J'ai retiré bg-gray-900 pour que le fond étoilé apparaisse derrière les cartes */}
+        <section id="projet" ref={container} className="relative pb-24 mt-30">
           
-          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={appReady ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 0.6 }}>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-dunbartall text-white mb-4">Mes Projets</h2>
-              <p className="text-lg text-white/80 font-dunbartext max-w-2xl mx-auto">
-                Une sélection de mes projets récents dans différents domaines du multimédia.
-              </p>
+          {/* Titre Sticky */}
+          <div className="sticky top-0 h-[15vh] flex items-end justify-center z-0 pb-6 mb-10">
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-center"
+            >
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-dunbartall text-white mb-2 drop-shadow-md">Mes Projets</h2>
+                <p className="text-white/80 text-xl font-dunbartall animate-bounce drop-shadow-md">Scroll Down &darr;</p>
             </motion.div>
+          </div>
 
-            {/* Projects grid (original layout) */}
-
-            {/* ---------- VOICI LA CORRECTION ---------- */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {projects.map((p) => (
-                <motion.div
-                  key={p.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={appReady ? { opacity: 1, y: 0 } : undefined}
-                  transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className={`group ${p.gridClass}`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {/* Le <Link> est à l'intérieur et gère la navigation */}
-                  <Link 
-                    to={p.to} 
-                    className="block rounded-2xl overflow-hidden shadow-lg"
-                  >
-                    <div className={`relative w-full ${p.containerClass ?? 'h-56 sm:h-64 lg:h-72'} bg-white`}>
-                      <img
-                        src={p.img}
-                        alt={p.title}
-                        className={`w-full h-full ${p.imgClass ?? 'object-cover'} transition-transform duration-300 group-hover:scale-105`}
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute left-4 bottom-4 text-left z-10">
-                        <h3 className="text-white text-lg md:text-xl font-semibold drop-shadow-md">{p.title}</h3>
-                        <span className="text-white/70 text-sm">Voir le projet</span>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-            {/* ---------- FIN DE LA CORRECTION ---------- */}
-
+          <div className="w-full flex flex-col items-center gap-[5vh]">
+            {projects.map((p, i) => {
+              const targetScale = 1 - ( (projects.length - i) * 0.05 );
+              
+              return (
+                <Card 
+                  key={i} 
+                  i={i} 
+                  {...p} 
+                  progress={scrollYProgress}
+                  range={[i * 0.25, 1]}
+                  targetScale={targetScale}
+                />
+              );
+            })}
           </div>
         </section>
       </main>
     </>
   );
-}
+};
+
+export default transition(Home);

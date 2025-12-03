@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 
@@ -31,10 +31,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-transparent fixed w-full top-0 z-50">
+    <nav className="bg-transparent fixed w-full top-0">
       <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-4 max-w-7xl">
         {/* Logo SVG - utilise Link */}
-        <Link to="/" className="z-50" onClick={() => setIsOpen(false)}>
+        <Link to="/" onClick={() => setIsOpen(false)}>
           <motion.img
             className="w-14 xl:w-16 2xl:w-20"
             whileHover={{ scale: 1.1 }}
@@ -86,7 +86,7 @@ export default function Navbar() {
         {/* Bouton menu mobile */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden z-50 relative w-15 h-10 text-white"
+          className="md:hidden relative w-15 h-10 text-white"
           aria-label="Ouvrir le menu"
         >
           <div className="absolute w-8 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
