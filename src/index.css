@@ -83,7 +83,7 @@ body:hover .cursor-outline.hovered {
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: #6366f1;
+  background-color: #050020;
   transform-origin: bottom;
   z-index: 9999;
 }

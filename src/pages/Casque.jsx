@@ -1,21 +1,27 @@
-import { useEffect, useRef, useContext } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { useEffect, useRef, useLayoutEffect, useState } from 'react';
+import { motion, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import transition from "../context/transition.jsx";
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// --- COMPOSANTS HELPERS (Tilt & Shine) ---
+gsap.registerPlugin(ScrollTrigger);
+
+// --- HELPER UI ---
 const TiltCard = ({ children, className = "" }) => {
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseX = useSpring(x, { stiffness: 150, damping: 30 });
   const mouseY = useSpring(y, { stiffness: 150, damping: 30 });
+   
   const rotateX = useTransform(mouseY, [-0.5, 0.5], ["5deg", "-5deg"]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-5deg", "5deg"]);
+   
   const handleMouseMove = (e) => {
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
@@ -26,275 +32,391 @@ const TiltCard = ({ children, className = "" }) => {
     y.set(mouseYFromCenter / height);
   };
   const handleMouseLeave = () => { x.set(0); y.set(0); };
+   
   return (
     <motion.div ref={ref} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} style={{ rotateX, rotateY, transformStyle: "preserve-3d" }} className={`relative transition-all duration-200 ${className}`}>{children}</motion.div>
   );
 };
 
-const ShineImage = ({ src, alt, className = "" }) => {
-  return (
-    <div className={`relative overflow-hidden group ${className}`}>
-      <div className="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg] transition-all duration-700 group-hover:left-[125%] z-20 pointer-events-none" />
-      <img src={src} alt={alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-    </div>
-  );
-};
-
-// --- COMPOSANT 3D (ThreeScene) ---
-const ThreeScene = () => {
+// --- SCÈNE 3D ---
+const ThreeScene = ({ containerRef, onLoadComplete }) => {
   const mountRef = useRef(null);
 
-  useEffect(() => {
-    let scene, camera, renderer, controls, frameId;
+  useLayoutEffect(() => {
+    let scene, camera, renderer, model, pmremGenerator;
+    let mm = gsap.matchMedia();
+    let rafId = null;
+
     const currentMount = mountRef.current;
     if (!currentMount) return;
 
     const init = () => {
+      // --- SCENE ---
       scene = new THREE.Scene();
-      
-      camera = new THREE.PerspectiveCamera(75, currentMount.clientWidth / currentMount.clientHeight, 0.1, 1000);
-      camera.position.z = 4;
 
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      const isMobile = window.innerWidth < 768;
+
+      // --- CAMERA ---
+      camera = new THREE.PerspectiveCamera(
+        isMobile ? 45 : 35,
+        currentMount.clientWidth / currentMount.clientHeight,
+        0.1,
+        100
+      );
+      camera.position.set(0, 0, 8);
+
+      // --- RENDERER ---
+      renderer = new THREE.WebGLRenderer({
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: "high-performance",
+      });
+
       renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1;
+      renderer.toneMappingExposure = 1.2;
+
       currentMount.appendChild(renderer.domElement);
-      
-      const pmremGenerator = new THREE.PMREMGenerator(renderer);
-      const roomEnvironment = new RoomEnvironment(renderer);
-      scene.environment = pmremGenerator.fromScene(roomEnvironment).texture;
-      pmremGenerator.dispose();
-      roomEnvironment.dispose();
 
-      controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true; 
-      controls.enableZoom = true; 
-      controls.autoRotate = true; 
-      controls.autoRotateSpeed = 2.0; 
+      // --- ENVIRONMENT ---
+      pmremGenerator = new THREE.PMREMGenerator(renderer);
+      const room = new RoomEnvironment(renderer);
+      scene.environment = pmremGenerator.fromScene(room).texture;
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-      scene.add(ambientLight);
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-      directionalLight.position.set(5, 10, 7.5); 
-      scene.add(directionalLight);
+      // --- LIGHTS ---
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      const mainLight = new THREE.DirectionalLight(0xffffff, 3);
+      mainLight.position.set(5, 5, 5);
+      scene.add(mainLight);
+      const fillLight = new THREE.DirectionalLight(0x3b82f6, 2);
+      fillLight.position.set(-5, 0, 2);
+      scene.add(fillLight);
 
+      // --- LOADERS ---
+      const draco = new DRACOLoader();
+      draco.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
       const loader = new GLTFLoader();
-      loader.load('./casque.glb', (gltf) => {
-          const model = gltf.scene;
-          const box = new THREE.Box3().setFromObject(model);
-          const center = box.getCenter(new THREE.Vector3());
-          const size = box.getSize(new THREE.Vector3());
-          model.position.sub(center); 
-          const maxDim = Math.max(size.x, size.y, size.z);
-          const fov = camera.fov * (Math.PI / 180);
-          let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-          cameraZ *= 1.5; 
-          camera.position.z = cameraZ;
-          controls.target.copy(model.position);
-          controls.update();
+      loader.setDRACOLoader(draco);
+
+      // --- LOAD MODEL ---
+      loader.load(
+        "./casque.glb",
+        (gltf) => {
+          model = gltf.scene;
+          model.matrixAutoUpdate = true;
+          
+          let bbox = new THREE.Box3().setFromObject(model);
+          let size = bbox.getSize(new THREE.Vector3());
+          let center = bbox.getCenter(new THREE.Vector3());
+
+          // Centrage brut
+          model.position.sub(center);
+
+          // Hauteur désirée (responsive)
+          const desiredHeight = isMobile ? 2.0 : 3.0;
+
+          // Scale automatique basé sur la hauteur du modèle
+          const scaleFactor = desiredHeight / size.y;
+          model.scale.setScalar(scaleFactor);
+
+          // Recentrage après scale
+          bbox.setFromObject(model);
+          bbox.getCenter(center);
+          model.position.sub(center);
+
+          // Correction hauteur finale
+          model.position.y = isMobile ? -0.6 : -1.4;
+
+          // -----------------------------------------------------
+
           scene.add(model);
-        }, undefined, (error) => {
-          console.error('Erreur chargement modèle', error);
-          // Fallback en cas d'erreur de chargement
-          const geo = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-          const mat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.1, metalness: 0.8 });
-          const mesh = new THREE.Mesh(geo, mat);
-          scene.add(mesh);
-        }
+
+          // Init scroll animations
+          initResponsiveScroll(model);
+
+          onLoadComplete && onLoadComplete();
+        },
+        undefined,
+        (err) => console.error(err)
       );
+
       animate();
     };
 
+    // --- SCROLL ANIMATIONS ---
+    const initResponsiveScroll = (model) => {
+      if (!containerRef.current) return;
+
+      const triggerSettings = {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.6,
+      };
+
+      mm.add(
+        {
+          isDesktop: "(min-width: 800px)",
+          isMobile: "(max-width: 799px)",
+        },
+        (context) => {
+          const { isDesktop, isMobile } = context.conditions;
+          let tl = gsap.timeline({ scrollTrigger: triggerSettings });
+
+          const fixedY = -1.4;
+
+          // État initial
+          if (isDesktop) {
+            model.position.set(1.5, fixedY, 0);
+            model.rotation.set(0, Math.PI * 0.25, 0);
+          } else {
+            model.position.set(0.5, -0.4, 0);
+            model.rotation.set(0, Math.PI * 0.25, 0);
+          }
+
+          // --- Étapes d’animation (inchangées) ---
+          if (isDesktop) {
+            tl.to(model.rotation, { y: Math.PI * 0.1, duration: 1.5 }, 0);
+            tl.to(model.position, { x: -1.2, duration: 1.5 }, 0);
+          } else {
+            tl.to(model.rotation, { y: -Math.PI * 0.2, x: 0.2, duration: 1.5 }, 0);
+            tl.to(model.position, { y: 0.8, duration: 1.5 }, 0);
+          }
+
+          if (isDesktop) {
+            tl.to(model.position, { z: 2.5, x: 1.4, duration: 1.5 }, 2);
+            tl.to(model.rotation, { y: 0, x: 0.3, duration: 1.5 }, 2);
+          } else {
+            tl.to(model.position, { z: 2, y: 0, duration: 1.5 }, 2);
+            tl.to(model.rotation, { x: 0.5, y: 0.5, duration: 1.5 }, 2);
+          }
+
+          if (isDesktop) {
+            tl.to(model.position, { z: 0, x: 2, duration: 1.5 }, 4);
+            tl.to(model.rotation, { y: -Math.PI * 0.4, x: 0, duration: 1.5 }, 4);
+          } else {
+            tl.to(model.position, { z: 0, y: 0.5, duration: 1.5 }, 4);
+            tl.to(model.rotation, { y: -Math.PI * 0.5, x: 0, duration: 1.5 }, 4);
+          }
+
+          // --- Explosion ---
+          const spread = isMobile ? 0.5 : 1.2;
+          const start = isDesktop ? 6.5 : 6.0;
+          const duration = 1.5;
+
+          const visor = model.getObjectByName("helmetViseurPoli");
+          if (visor)
+            tl.to(visor.position, { z: 120 * spread, duration }, start);
+
+          const spoiler = model.getObjectByName("aileron");
+          if (spoiler)
+            tl.to(spoiler.position, { z: -0.5 * spread, x: 0.2 * spread, duration }, start);
+
+          const base = model.getObjectByName("joinDeBase");
+          if (base)
+            tl.to(base.position, { y: 70 * spread, duration }, start);
+
+          const body = model.getObjectByName("BodyHelmet");
+          if (body)
+            tl.to(body.position, { z: -0.2 * spread, duration }, start);
+
+          const tubeR = model.getObjectByName("TuyeauR");
+          if (tubeR)
+            tl.to(tubeR.position, { x: 0.4 * spread, duration }, start);
+
+          const tubeL = model.getObjectByName("TuyeauL");
+          if (tubeL)
+            tl.to(tubeL.position, { x: 0.4 * spread, duration }, start);
+
+          return () => {};
+        }
+      );
+    };
+
+    // --- RENDER LOOP ---
     const animate = () => {
-      frameId = requestAnimationFrame(animate);
-      controls.update(); 
+      rafId = requestAnimationFrame(animate);
       renderer.render(scene, camera);
     };
 
+    // --- RESIZE ---
     const handleResize = () => {
-      if (currentMount && renderer) {
-        camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-      }
+      if (!renderer || !camera || !currentMount) return;
+      camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+      ScrollTrigger.refresh();
     };
 
     init();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
+    // --- CLEANUP ---
     return () => {
-      window.removeEventListener('resize', handleResize);
-      if (renderer && currentMount) currentMount.removeChild(renderer.domElement);
-      cancelAnimationFrame(frameId);
-      if (renderer) renderer.dispose();
+      window.removeEventListener("resize", handleResize);
+      mm.revert();
+
+      if (rafId) cancelAnimationFrame(rafId);
+
+      ScrollTrigger.getAll().forEach((s) => s.kill());
+
+      if (pmremGenerator) pmremGenerator.dispose();
+
+      if (scene) {
+        scene.traverse((obj) => {
+          if (obj.isMesh) {
+            obj.geometry?.dispose();
+            if (obj.material) {
+              if (Array.isArray(obj.material))
+                obj.material.forEach((m) => m.dispose());
+              else obj.material.dispose();
+            }
+          }
+        });
+      }
+
+      if (renderer) {
+        renderer.dispose();
+        currentMount?.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
-  return <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />;
+  return <div ref={mountRef} className="w-full h-full" />;
 };
 
 function Casque() {
+  const mainWrapperRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+  
+  // On s'assure de scroller en haut au chargement
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
-  };
-
-  const theme = {
-    blue: '#3b82f6', // Blue-500
-    cyan: '#06b6d4', // Cyan-500
-  };
-
   return (
-    <div className="min-h-screen font-sans overflow-x-hidden text-white">
+    // La hauteur totale reste à 750vh pour laisser le temps à l'animation GSAP de se jouer
+    <div ref={mainWrapperRef} className="relative w-full font-sans text-white" style={{ height: '750vh' }}>
       
-      {/* --- 1. HERO HEADER --- */}
-      <header className="relative h-[85vh] flex items-end pb-12 px-6 overflow-hidden">
-        {/* Fond décoratif 3D Wireframe */}
-        <div className="absolute inset-0 opacity-20">
-            {/* Utiliser une image de wireframe ou un rendu du casque */}
-            <img src="./casque.jpg" alt="Wireframe Background" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+      {/* LOADER */}
+      {!loaded && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-1000">
+             <div className="flex flex-col items-center">
+                <div className="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+                <span className="font-dunbartext text-purple-400 text-sm tracking-widest uppercase animate-pulse">Chargement Modèle 3D...</span>
+             </div>
         </div>
-        
-        <div className="relative z-10 container mx-auto">
-          <div>
-            <span className="font-bold tracking-widest uppercase mb-4 block font-dunbartext bg-blue-500/10 backdrop-blur-md w-fit px-3 py-1 rounded border border-blue-500/30 text-blue-300">
-              3D Modeling / 2025
-            </span>
-            <h1 className="text-5xl md:text-8xl lg:text-9xl font-dunbartall leading-[0.9] text-white">
-              CASQUE <br />
-              <span className="text-transparent" 
-                    style={{ 
-                        WebkitTextStroke: `2px ${theme.cyan}`, 
-                        textShadow: `0px 0px 20px ${theme.blue}80`
-                    }}>
-                F1 3D
-              </span>
-            </h1>
-          </div>
-        </div>
-      </header>
+      )}
 
-      {/* --- 2. MAIN CONTENT GRID --- */}
-      <section className="container mx-auto px-6 py-24 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
-          
-          {/* --- SIDEBAR (STICKY) --- */}
-          <div className="w-full lg:w-1/4 h-fit lg:sticky lg:top-32 space-y-10 z-20">
-            
-            {/* Carte Infos */}
-            <TiltCard className="bg-black/60 backdrop-blur-xl p-6 rounded-2xl border border-blue-500/30" style={{ boxShadow: `0 0 15px ${theme.blue}20` }}>
-              <h3 className="font-dunbartall text-2xl mb-6 pb-2 border-b border-blue-500/20 text-blue-400">Infos Clés</h3>
-              <ul className="space-y-4 text-sm font-dunbartext text-gray-300">
-                <li className="flex justify-between pb-2"><span>Type</span> <span className="font-bold text-white">Personnel</span></li>
-                <li className="flex justify-between pb-2"><span>Rôle</span> <span className="font-bold text-white">3D Artist</span></li>
-                <li className="flex justify-between pb-2"><span>Année</span> <span className="font-bold text-white">2025</span></li>
-              </ul>
-            </TiltCard>
-
-            {/* Outils */}
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-              <h3 className="font-dunbartall text-xl mb-4 text-cyan-400">Outils</h3>
-              <div className="flex flex-wrap gap-2">
-                {['Blender', 'Substance Painter'].map(tool => (
-                    <span key={tool} className="px-3 py-1 border border-cyan-500/30 bg-cyan-900/20 rounded-full text-xs font-bold uppercase tracking-wider text-cyan-200">
-                        {tool}
-                    </span>
-                ))}
-              </div>
-            </motion.div>
-
-          </div>
-
-          {/* --- RIGHT CONTENT --- */}
-          <div className="w-full lg:w-3/4 space-y-24">
-            
-            {/* Intro Text */}
-            <motion.div className="prose prose-xl prose-invert max-w-none" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-              <h2 className="text-3xl md:text-5xl font-dunbartall mb-8 leading-tight text-white">
-                Du concept à la <span className="px-2 text-white font-bold inline-block transform -rotate-1 rounded-sm bg-gradient-to-r from-blue-600 to-cyan-500">réalité virtuelle</span>
-              </h2>
-              <p className="font-dunbartext text-gray-300">
-                L'objectif de ce projet était de recréer un casque F1 réaliste en 3D. Ce fut un excellent exercice pour maîtriser les techniques de modélisation hard-surface et le texturing PBR.
-              </p>
-            </motion.div>
-
-            {/* --- 3D VIEWER (L'attraction principale) --- */}
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-                <h3 className="font-dunbartall text-3xl mb-6 text-blue-400 border-l-4 border-cyan-500 pl-4">Modèle Interactif</h3>
-                
-                <TiltCard className="rounded-2xl overflow-hidden shadow-2xl border border-blue-500/30 bg-gradient-to-br from-gray-900 to-black h-[500px]">
-                    {/* Intégration de la scène Three.js */}
-                    <ThreeScene />
-                </TiltCard>
-            </motion.div>
-
-            {/* --- SECTION TEXTE + IMAGE (BREAKOUT GAUCHE) --- */}
-            <div className="flex flex-col md:flex-row items-center gap-12 lg:w-[135%] lg:-ml-[35%] relative z-10">
-                
-                {/* Image Rendu Fixe */}
-                <motion.div className="w-full md:w-1/2" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-                    <TiltCard>
-                        <ShineImage 
-                            src="./casque.jpg" 
-                            alt="Rendu Final" 
-                            className="rounded-2xl shadow-xl border border-blue-500/20"
-                        />
-                    </TiltCard>
-                </motion.div>
-
-                {/* Texte Technique */}
-                <motion.div className="w-full md:w-1/2 font-dunbartext text-gray-300" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-                    <h3 className="font-dunbartall text-3xl mb-4 text-cyan-400">Le Workflow</h3>
-                    <p className="mb-6">
-                        La modélisation a été réalisée sous Blender en utilisant des modificateurs non destructifs pour garder de la flexibilité.
-                    </p>
-                    <ul className="list-disc pl-5 space-y-2 text-gray-400">
-                        <li><strong className="text-white">Blender :</strong> Modélisation High-poly & Low-poly.</li>
-                        <li><strong className="text-white">Substance :</strong> Texturing PBR réaliste (plastique, cuir, métal).</li>
-                        <li><strong className="text-white">Cycles :</strong> Rendu final avec éclairage studio.</li>
-                    </ul>
-                </motion.div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* --- MARQUEE --- */}
-      <div className="py-6 overflow-hidden bg-blue-600 border-y-4 border-white rotate-1 scale-105 relative z-10 shadow-[0_0_40px_#3b82f6]">
-        <motion.div className="whitespace-nowrap flex" animate={{ x: [0, -1000] }} transition={{ repeat: Infinity, ease: "linear", duration: 30 }}>
-            {[1,2,3,4].map(i => (<span key={i} className="text-3xl font-dunbartall text-white mx-8 drop-shadow-sm">3D MODELING • TEXTURING • RENDERING • HARD SURFACE • </span>))}
-        </motion.div>
+      {/* SCÈNE 3D (Background Fixe) */}
+      <div className="sticky top-0 left-0 w-full h-screen z-0 overflow-hidden">
+         <ThreeScene containerRef={mainWrapperRef} onLoadComplete={() => setLoaded(true)} />
       </div>
 
-      {/* --- NEXT PROJECT --- */}
-      <section className="py-32 text-center relative z-10">
-        <p className="text-gray-400 uppercase tracking-widest mb-4 font-dunbartext">Prochain Projet</p>
-        <Link to="/marlowe" className="inline-block group relative">
-            <h2 className="text-6xl md:text-8xl font-dunbartall text-transparent transition-colors duration-300 relative z-10 group-hover:text-white"
-                style={{ WebkitTextStroke: '2px white' }}>
-                Marlowe
-            </h2>
-            <div 
-                className="absolute inset-0 bg-clip-text text-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ backgroundImage: `linear-gradient(to right, #ffffff, #9ca3af)` }}
-            >
-               <h2 className="text-6xl md:text-8xl font-dunbartall" style={{ textShadow: '0 0 20px white' }}>
-                Marlowe
-               </h2>
+      {/* CONTENU TEXTE (Scrollable) */}
+      <div className={`absolute top-0 left-0 w-full z-10 pointer-events-none transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+        
+        {/* --- BLOC 1: Intro (0vh - 100vh) --- */}
+        <section className="h-screen flex flex-col justify-end lg:justify-center lg:items-start px-6 lg:px-12 pb-24 lg:pb-0 pointer-events-auto">
+            <div className="w-full lg:w-1/2">
+                <div className="flex items-center gap-4 mb-2 lg:mb-4">
+                    <span className="h-[1px] w-12 bg-purple-400 inline-block"></span>
+                    <span className="font-bold tracking-[0.2em] uppercase font-dunbartext text-purple-400 text-xs lg:text-sm">
+                      Projet Scolaire / 2025
+                    </span>
+                </div>
+                <h1 className="text-5xl lg:text-9xl font-dunbartall leading-[0.85] mb-4 lg:mb-6">
+                  CASQUE <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500" style={{ WebkitTextStroke: `0px` }}>
+                    F1
+                  </span>
+                </h1>
+                <p className="text-gray-400 text-lg lg:text-xl font-dunbartext max-w-md leading-relaxed">
+                   Ma première exploration approfondie de la modélisation 3D. Une interprétation moderne et épurée de la sécurité automobile.
+                </p>
             </div>
-            <div className="h-1 w-0 group-hover:w-full transition-all duration-500 mt-2 mx-auto bg-white shadow-[0_0_10px_white]"></div>
-        </Link>
-      </section>
+        </section>
 
+        {/* --- BLOC 2: Modélisation (100vh - 200vh) --- */}
+        <section className="h-screen flex flex-col justify-end lg:justify-center lg:items-end px-6 lg:px-12 pb-24 lg:pb-0 pointer-events-auto">
+            <div className="w-full lg:w-1/3">
+                <TiltCard className="bg-black lg:bg-black backdrop-blur-2xl p-6 lg:p-10 rounded-3xl border border-white shadow-2xl">
+                    <div className="text-purple-400 text-xs font-bold tracking-widest uppercase mb-2">Technique</div>
+                    <h2 className="text-3xl lg:text-4xl font-dunbartall mb-2 lg:mb-4 text-white">Challenge Hard Surface</h2>
+                    <p className="text-gray-400 font-dunbartext mb-6 text-sm lg:text-base leading-relaxed">
+                        Le défi majeur : la découverte de Blender et la gestion des surfaces complexes. Un apprentissage exigeant pour maîtriser la topologie d'un objet industriel.
+                    </p>
+                    <ul className="space-y-3 text-xs lg:text-sm text-gray-300 font-mono border-t border-white/10 pt-4">
+                        <li className="flex justify-between"><span>Méthode</span> <span className="text-purple-400">Hard Surface</span></li>
+                        <li className="flex justify-between"><span>Stack</span> <span className="text-purple-400">Blender / Substance</span></li>
+                    </ul>
+                </TiltCard>
+            </div>
+        </section>
+
+        {/* --- BLOC 3: Lookdev (200vh - 300vh) --- */}
+        <section className="h-screen flex flex-col justify-end lg:justify-center lg:items-start px-6 lg:px-12 pb-24 lg:pb-0 pointer-events-auto">
+            <div className="w-full lg:w-1/3">
+                <TiltCard className="bg-black lg:bg-black backdrop-blur-2xl p-6 lg:p-10 rounded-3xl border border-purple-400/30 shadow-[0_0_50px_rgba(6,182,212,0.15)]">
+                      <div className="text-purple-400 text-xs font-bold tracking-widest uppercase mb-2">Lookdev</div>
+                    <h2 className="text-3xl lg:text-4xl font-dunbartall mb-2 lg:mb-4 text-white">Textures & Matières</h2>
+                    <p className="text-gray-300 font-dunbartext mb-6 text-sm lg:text-base leading-relaxed">
+                        Recherche de réalisme via un texturing PBR précis. Association de <strong>Fibre de Carbone</strong> pour la coque, de <strong>Composite</strong> pour la visière et de <strong>Grip</strong> pour la tuyauterie.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        <span className="px-3 py-1 bg-purple-400/10 border border-purple-400/30 text-purple-400 rounded-full text-[10px] uppercase tracking-widest font-bold">Texturing</span>
+                        <span className="px-3 py-1 bg-purple-400/10 border border-purple-400/30 text-purple-400 rounded-full text-[10px] uppercase tracking-widest font-bold">Realism</span>
+                    </div>
+                </TiltCard>
+            </div>
+        </section>
+
+        {/* --- BLOC 4: Design (300vh - 400vh) --- */}
+        <section className="h-screen flex flex-col justify-end lg:justify-center lg:items-end px-6 lg:px-12 pb-24 lg:pb-0 pointer-events-auto">
+            <div className="w-full lg:w-1/3">
+                <TiltCard className="bg-black lg:bg-black backdrop-blur-2xl p-6 lg:p-10 rounded-3xl border border-white/10">
+                    <div className="text-purple-500 text-xs font-bold tracking-widest uppercase mb-2">Identité</div>
+                    <h2 className="text-3xl lg:text-4xl font-dunbartall mb-2 lg:mb-4 text-white">Esthétique & Branding</h2>
+                    <p className="text-gray-300 font-dunbartext text-sm lg:text-base leading-relaxed">
+                        Une forme moderne simplifiée, habillée d'une teinte violette aux reflets bleutés. Intégration des logos <em>Marc Jacobs</em> et <em>Mercedes</em> pour ancrer l'objet dans une réalité sportive.
+                    </p>
+                </TiltCard>
+            </div>
+        </section>
+
+        {/* --- ESPACE VIDE (Pour laisser le casque bouger) (400vh - 500vh) --- */}
+        <div className="h-[100vh]"></div>
+
+        {/* --- BLOC 5 : Vue Éclatée (500vh - 650vh) --- */}
+        {/* On force ce bloc à apparaître vers la fin du scroll, avant le footer */}
+        <section className="h-[150vh] flex flex-col justify-start pt-24 lg:justify-center lg:pt-0 lg:items-start px-6 lg:px-12 pointer-events-auto">
+            <div className="w-full lg:w-1/2">
+                <h2 className="text-5xl lg:text-7xl font-dunbartall mb-6 text-white leading-tight">
+                    Vue <br/>
+                    <span className="text-purple-400">Éclatée</span>
+                </h2>
+                <div className="border-l-2 border-purple-400 pl-6">
+                  <p className="text-gray-300 text-sm lg:text-lg font-dunbartext max-w-xl">
+                      Démonstration technique de la séparation des volumes. Cette vue permet de visualiser l'indépendance de chaque composant modélisé lors de l'exercice.
+                  </p>
+                </div>
+            </div>
+        </section>
+
+        {/* --- FOOTER (Tout en bas) --- */}
+        <section className="h-[100vh] flex flex-col justify-end pb-32 items-center pointer-events-auto">
+             <p className="text-gray-500 uppercase tracking-[0.3em] mb-6 font-dunbartext text-xs">Projet Suivant</p>
+             <Link to="/marlowe" className="group relative">
+                <div className="absolute -inset-4 bg-purple-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+                <h2 className="relative text-5xl lg:text-9xl font-dunbartall text-white/20 group-hover:text-white transition-all duration-500">
+                   MARLOWE
+                </h2>
+             </Link>
+        </section>
+
+      </div>
     </div>
   );
-};
+}
 
 export default transition(Casque);

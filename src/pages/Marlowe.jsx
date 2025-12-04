@@ -70,7 +70,7 @@ function Marlowe() {
         <div className="relative z-10 container mx-auto">
           <div>
             <span className="font-bold tracking-widest uppercase mb-4 block font-dunbartext bg-white/10 backdrop-blur-md w-fit px-3 py-1 rounded border border-white/50 text-white">
-              Web Design / 2024
+              Vidéo / 2024
             </span>
             <h1 className="text-5xl md:text-8xl lg:text-9xl font-dunbartall leading-[0.9] text-white">
               PROJET <br />

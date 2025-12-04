@@ -191,37 +191,38 @@ function Home() {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 mt-8"
+            className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-8 mt-8 w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 1 }}
           >
-            <motion.a 
+            <motion.a
               href="#about"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-black drop-shadow-lg font-dunbartext py-3 px-8 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-auto text-center"
+              className="bg-white text-black drop-shadow-lg font-dunbartext py-3.5 px-10 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-full md:w-auto text-center"
             >
               Qui suis-je ?
             </motion.a>
 
-            <motion.a 
+            <motion.a
               href="#projet"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('projet')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("projet")?.scrollIntoView({ behavior: "smooth" });
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white/15 hover:bg-white/50 drop-shadow-lg text-white border-2 border-solid font-dunbartext py-3 px-8 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-auto text-center"
+              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/40 font-dunbartext py-3.5 px-10 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-full md:w-auto text-center"
             >
               Projets
             </motion.a>
           </motion.div>
+
         </section>
 
         {/* --- 2. ABOUT SECTION --- */}
