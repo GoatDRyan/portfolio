@@ -91,7 +91,7 @@ function BikeRepair() {
               </div>
             </motion.div>
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={fadeInUp}>
-                <a href="/portfolio/public/charte-graphique.pdf" className="block w-full py-4 text-gray-900 text-center font-bold rounded-xl transition-all transform hover:-translate-y-1 font-dunbartext"
+                <a href="./charte-graphique.pdf" className="block w-full py-4 text-gray-900 text-center font-bold rounded-xl transition-all transform hover:-translate-y-1 font-dunbartext"
                 style={{ backgroundColor: theme.blue, boxShadow: `0 10px 30px -10px ${theme.blue}80` }} target='_blank'>Voir la charte graphique</a>
             </motion.div>
           </div>

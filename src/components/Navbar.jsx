@@ -31,10 +31,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-transparent fixed w-full top-0">
+    // AJOUT 1: z-50 ici pour que la barre reste au-dessus du contenu de la page
+    <nav className="bg-transparent fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-4 max-w-7xl">
+        
         {/* Logo SVG - utilise Link */}
-        <Link to="/" onClick={() => setIsOpen(false)}>
+        {/* AJOUT 2: relative et z-50 pour que le logo reste cliquable même menu ouvert */}
+        <Link to="/" onClick={() => setIsOpen(false)} className="relative z-50">
           <motion.img
             className="w-14 xl:w-16 2xl:w-20"
             whileHover={{ scale: 1.1 }}
@@ -84,9 +87,10 @@ export default function Navbar() {
         </div>
 
         {/* Bouton menu mobile */}
+        {/* AJOUT 3: z-50 est CRUCIAL ici. Il force le bouton à être AU-DESSUS du menu plein écran */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden relative w-15 h-10 text-white"
+          className="md:hidden relative z-50 w-15 h-10 text-white"
           aria-label="Ouvrir le menu"
         >
           <div className="absolute w-8 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
@@ -103,6 +107,7 @@ export default function Navbar() {
         </button>
 
         {/* Menu mobile */}
+        {/* NOTE: On laisse inset-0, mais grâce au z-50 du bouton, le bouton restera accessible */}
         <motion.div 
           initial="closed"
           animate={isOpen ? "open" : "closed"}
@@ -111,7 +116,8 @@ export default function Navbar() {
             closed: { opacity: 0, x: "100%" }
           }}
           transition={{ duration: 0.3 }}
-          className={`fixed inset-0 bg-black/40 md:hidden backdrop-blur-lg touch-none ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
+          // AJOUT 4: z-40 pour être sûr qu'il est sous le bouton (z-50) mais au-dessus du reste
+          className={`fixed inset-0 z-40 bg-black/40 md:hidden backdrop-blur-lg touch-none ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
         >
           <div className="flex flex-col items-center justify-center h-full gap-8 text-xl text-white font-dunbartall">
             <motion.div

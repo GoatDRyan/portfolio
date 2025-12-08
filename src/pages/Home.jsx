@@ -138,7 +138,7 @@ function Home() {
       tags: ["Premier pro", "Film", "Scolaire"],
       img: './marlowe.png',
       to: '/marlowe',
-      color: '#f59e0b'
+      color: '#000000'
     },
     { 
       title: 'SAE203',
@@ -217,7 +217,7 @@ function Home() {
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/40 font-dunbartext py-3.5 px-10 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-full md:w-auto text-center"
+              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-2 border-white font-dunbartext py-3.5 px-10 rounded text-lg lg:text-xl transition-colors duration-200 w-full sm:w-full md:w-auto text-center"
             >
               Projets
             </motion.a>
@@ -227,7 +227,6 @@ function Home() {
 
         {/* --- 2. ABOUT SECTION --- */}
         <section id="about" className="relative min-h-dvh flex items-center justify-center py-12 md:py-20 overflow-hidden">
-          {/* Suppression de bg-black ici aussi, le div inset-0 peut servir d'ombre si besoin */}
           <div className="absolute inset-0" />
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
