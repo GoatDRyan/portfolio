@@ -110,8 +110,8 @@ function BikeRepair() {
               </p>
             </motion.div>
 
-            {/* Moodboard (Reste aligné à droite, mais déborde un peu) */}
-            <motion.div className="relative w-[110%] -mr-[10%] group" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            {/* Moodboard*/}
+            <motion.div className="relative w-[110%] -mr-[10%] group lg:w-[103%]" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
                <div className="absolute -top-6 -left-6 text-gray-900 font-dunbartall px-6 py-3 rounded-xl rotate-[-5deg] z-20 shadow-lg text-xl" style={{ backgroundColor: theme.blue }}>Moodboard</div>
                <TiltCard className="rotate-2 group-hover:rotate-0 transition-transform duration-500">
                   <ShineImage src="./moodbord.png" alt="Moodboard" className="rounded-3xl shadow-2xl border-4" style={{ borderColor: theme.cream }} />

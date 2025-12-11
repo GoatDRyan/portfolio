@@ -332,7 +332,7 @@ function Casque() {
                   </span>
                 </h1>
                 <p className="text-gray-400 text-lg lg:text-xl font-dunbartext max-w-md leading-relaxed">
-                   Ma première exploration approfondie de la modélisation 3D. Une interprétation moderne et épurée de la sécurité automobile.
+                   Ma première exploration approfondie de la modélisation 3D.
                 </p>
             </div>
         </section>
@@ -378,7 +378,7 @@ function Casque() {
                     <div className="text-purple-500 text-xs font-bold tracking-widest uppercase mb-2">Identité</div>
                     <h2 className="text-3xl lg:text-4xl font-dunbartall mb-2 lg:mb-4 text-white">Esthétique & Branding</h2>
                     <p className="text-gray-300 font-dunbartext text-sm lg:text-base leading-relaxed">
-                        Une forme moderne simplifiée, habillée d'une teinte violette aux reflets bleutés. Intégration des logos <em>Marc Jacobs</em> et <em>Mercedes</em> pour ancrer l'objet dans une réalité sportive.
+                        Une forme moderne simplifiée, habillée d'une teinte violette aux reflets bleutés. Intégration des logos <em>Marc Jacobs</em> et <em>Mercedes</em>.
                     </p>
                 </TiltCard>
             </div>

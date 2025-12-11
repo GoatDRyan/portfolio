@@ -264,13 +264,14 @@ function Home() {
               >
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-dunbartall mb-6">À propos de moi</h2>
                 <p className="text-lg font-dunbartext mb-6 text-white bg">
-                  Étudiant en Bachelor Universitaire de Technologie Métiers du Multimédia et de l'Internet (BUT MMI), 
+                  Étudiant en Bachelor Universitaire de Technologie Métiers du Multimédia et de l'Internet (BUT MMI), à l'
+                  IUT de Rouen site d'Elbeuf 
                   je développe mes compétences dans les domaines du web, du design graphique, de la communication digitale 
                   et de la production audiovisuelle.
                 </p>
                 <div className="flex justify-center w-full">
                   <motion.a
-                    href="/cv.pdf"
+                    href="./cv.pdf"
                     download
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
