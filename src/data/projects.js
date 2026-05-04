@@ -407,20 +407,20 @@ export const projects = [
     slug: "shiftup",
     number: "02",
     title: "Shift’Up",
-    accent: "#7fb069",
+    accent: "#ff4800",
     page: "/projects/shiftup",
     image: `${import.meta.env.BASE_URL}projects/shiftup/hero.jpg`,
 
     seo: {
       fr: {
-        title: "Shift’Up – Application RSE gamifiée PHP/MySQL | Ryan Mumbata",
+        title: "Shift’Up – SaaS RSE gamifié PHP/MySQL | Ryan Mumbata",
         description:
-          "Étude de cas Shift’Up : application web fullstack en PHP/MySQL avec authentification, rôles utilisateurs, dashboards, sessions et gamification.",
+          "Étude de cas Shift’Up : prototype SaaS B2B RSE développé en PHP/MySQL avec authentification, rôles, défis, XP, badges, boutique, base de données et gamification.",
       },
       en: {
-        title: "Shift’Up – Gamified PHP/MySQL RSE App | Ryan Mumbata",
+        title: "Shift’Up – Gamified CSR SaaS PHP/MySQL | Ryan Mumbata",
         description:
-          "Shift’Up case study: fullstack PHP/MySQL web application with authentication, user roles, dashboards, sessions and gamification.",
+          "Shift’Up case study: gamified B2B CSR SaaS prototype built with PHP/MySQL, authentication, roles, challenges, XP, badges, shop, database and gamification.",
       },
     },
 
@@ -428,59 +428,70 @@ export const projects = [
 
     card: {
       fr: {
-        type: "Application fullstack",
+        type: "Prototype SaaS B2B",
         description:
-          "Développement d’une application RSE gamifiée en PHP/MySQL avec authentification, rôles utilisateurs, sessions, dashboards, logique de progression et gestion de données.",
-        tags: ["PHP", "MySQL", "PDO", "Auth", "Fullstack"],
+          "Application web RSE gamifiée destinée aux entreprises, conçue pour motiver les salariés à réaliser des actions écologiques grâce à des défis, de l’XP, des badges, une monnaie virtuelle et une logique de progression.",
+        tags: ["PHP", "MySQL", "PDO", "Gamification", "Auth"],
         imageAlt:
-          "Aperçu du projet Shift’Up, application RSE gamifiée développée en PHP et MySQL",
+          "Aperçu du projet Shift’Up, prototype SaaS B2B gamifié autour de la RSE",
       },
       en: {
-        type: "Fullstack application",
+        type: "B2B SaaS prototype",
         description:
-          "Development of a gamified RSE application with PHP/MySQL, including authentication, user roles, sessions, dashboards, progression logic and data management.",
-        tags: ["PHP", "MySQL", "PDO", "Auth", "Fullstack"],
+          "Gamified CSR web application designed for companies, helping employees take ecological actions through challenges, XP, badges, virtual currency and progression mechanics.",
+        tags: ["PHP", "MySQL", "PDO", "Gamification", "Auth"],
         imageAlt:
-          "Preview of the Shift’Up project, gamified RSE application developed with PHP and MySQL",
+          "Preview of the Shift’Up project, a gamified B2B SaaS prototype focused on CSR",
       },
     },
 
     detail: {
       fr: {
-        badge: "Fullstack · PHP · MySQL · Gamification",
-        fullTitle: "Shift’Up — Application RSE gamifiée en PHP/MySQL",
+        badge: "Projet de groupe · PHP · MySQL · RSE · Gamification",
+        fullTitle:
+          "Shift’Up — Prototype SaaS B2B pour engager les salariés dans la RSE",
         subtitle:
-          "Une application web pensée pour sensibiliser et engager les utilisateurs autour d’actions RSE grâce à une logique de progression, de rôles et de gamification.",
+          "Une application web gamifiée pensée pour transformer les engagements RSE d’une entreprise en actions concrètes, motivantes et mesurables pour les collaborateurs.",
         backLabel: "Retour au portfolio",
-        liveLabel: "Projet à sécuriser avant publication",
+        liveLabel: "Projet privé / non publié",
 
         info: {
           title: "Power Stats",
           items: [
-            ["Type", "Application web fullstack"],
-            ["Rôle", "Développeur PHP/MySQL"],
+            ["Type", "Prototype SaaS B2B"],
+            ["Contexte", "Projet de groupe"],
+            ["Équipe", "7 personnes · 3 dev · 4 créa"],
+            ["Rôle", "Développeur principal application & BDD"],
             ["Année", "2026"],
-            ["Durée", "Projet scolaire / personnel"],
-            ["Statut", "À nettoyer avant publication"],
+            ["Statut", "Prototype fonctionnel"],
           ],
           stackTitle: "Stack",
-          stack: ["PHP", "MySQL", "PDO", "Sessions", "Auth", "Dashboard"],
+          stack: [
+            "PHP",
+            "MySQL",
+            "PDO",
+            "Sessions PHP",
+            "JavaScript",
+            "Chart.js",
+            "Tailwind CDN",
+            "HTML/CSS",
+          ],
         },
 
         overview: {
           title: "Mission Brief",
           text:
-            "Shift’Up est une application web gamifiée autour de la RSE. Le projet met en avant une logique applicative plus avancée qu’un site vitrine : authentification, rôles, dashboards, sessions et gestion de données.",
+            "Shift’Up est un prototype de startup SaaS B2B imaginé pour accompagner la transition écologique des entreprises. L’objectif est de créer un lien entre les engagements RSE de l’entreprise et les actions quotidiennes de chaque salarié grâce à une application motivante, collective et gamifiée.",
           cards: [
             {
-              title: "Objectif principal",
+              title: "Objectif produit",
               text:
-                "Créer une application structurée qui permet de gérer différents espaces utilisateurs et de suivre une progression.",
+                "Rendre l’écologie plus accessible et attractive en transformant les bonnes pratiques RSE en défis quotidiens, progression, badges, classements et récompenses.",
             },
             {
-              title: "Attention",
+              title: "Objectif technique",
               text:
-                "Le projet doit être nettoyé avant publication : suppression des identifiants, ajout d’un .env, README propre et schéma de base de données.",
+                "Développer une application web dynamique avec authentification, base de données relationnelle, rôles utilisateurs, défis, gamification et persistance des données.",
             },
           ],
         },
@@ -488,14 +499,17 @@ export const projects = [
         role: {
           title: "Hero Role",
           text:
-            "J’ai travaillé sur la logique back-end, l’authentification, les rôles, la gestion des sessions, les dashboards et l’organisation de la base de données.",
+            "Dans une équipe de 7 personnes, j’ai principalement développé la partie applicative et la base de données de Shift’Up. Les créatifs ont produit l’univers graphique, les visuels et la maquette, que j’ai ensuite majoritairement intégrés côté application.",
           items: [
-            "Gestion de l’authentification.",
-            "Gestion des rôles utilisateurs.",
-            "Création des dashboards.",
-            "Utilisation de PDO et requêtes préparées.",
-            "Organisation de la base de données MySQL.",
-            "Logique de progression et de gamification.",
+            "Conception d’environ 85% de la base de données MySQL.",
+            "Développement de la majorité de l’application côté utilisateur.",
+            "Création des pages de connexion, inscription et paramètres.",
+            "Création et rédaction des défis RSE, hors visuels.",
+            "Développement de la logique de gamification : XP, niveaux, streak, badges, monnaie virtuelle et boutique.",
+            "Intégration des maquettes fournies par l’équipe créative.",
+            "Participation légère au wireframe initial pour aider la conception de la maquette.",
+            "Création du dépôt Git et résolution de conflits pendant le projet.",
+            "Intervention ponctuelle sur les espaces admin et super-admin, principalement développés par un autre développeur.",
           ],
         },
 
@@ -503,24 +517,24 @@ export const projects = [
           title: "Origin Process",
           items: [
             {
-              title: "Analyse",
+              title: "Concept & identité",
               text:
-                "Définition des rôles, des espaces utilisateurs et de la logique de progression.",
+                "Le projet s’appuie sur une identité de marque forte : Shifter, Daily Shift, Shift League, Shift Center, Shift Master et Shift Impact. L’objectif était de rendre la RSE plus positive, accessible et motivante.",
             },
             {
               title: "Base de données",
               text:
-                "Création des tables principales et structuration des relations.",
+                "J’ai conçu la majorité du modèle de données : utilisateurs, entreprises, départements, défis, actions validées, badges, récompenses, inventaire et progression.",
             },
             {
-              title: "Back-end",
+              title: "Parcours utilisateur",
               text:
-                "Développement de la logique PHP, des sessions et des requêtes SQL.",
+                "J’ai développé les principales pages côté Shifter : authentification, inscription, paramètres, défis, boutique et mécaniques de progression.",
             },
             {
-              title: "Interface",
+              title: "Gamification",
               text:
-                "Création des vues pour les utilisateurs et les administrateurs.",
+                "J’ai mis en place une logique de récompense avec XP, niveaux, streaks, badges, monnaie virtuelle et objets utilisables pour renforcer l’engagement.",
             },
           ],
         },
@@ -528,13 +542,18 @@ export const projects = [
         features: {
           title: "Main Features",
           items: [
-            "Authentification.",
-            "Rôles utilisateurs.",
-            "Sessions.",
-            "Dashboards.",
-            "Progression.",
-            "Gamification.",
-            "Base de données MySQL.",
+            "Authentification avec connexion, inscription et récupération de mot de passe.",
+            "Gestion des rôles : Shifter, Admin entreprise et Super-admin.",
+            "Défis RSE avec difficulté, catégorie, durée, limite quotidienne et validation.",
+            "Système d’XP, de niveaux et de progression.",
+            "Streak utilisateur pour encourager la régularité.",
+            "Badges débloqués selon certaines actions.",
+            "Monnaie virtuelle gagnée grâce aux défis.",
+            "Boutique avec récompenses et objets utilisables.",
+            "Inventaire utilisateur.",
+            "Base de données relationnelle MySQL.",
+            "Interface bilingue français / anglais.",
+            "Intégration responsive à partir des maquettes créatives.",
           ],
         },
 
@@ -543,21 +562,27 @@ export const projects = [
           items: [
             {
               problem:
-                "Construire une application avec plusieurs rôles et espaces utilisateurs sans rendre la logique trop confuse.",
+                "Créer une application RSE motivante sans tomber dans un ton moralisateur ou culpabilisant.",
               solution:
-                "J’ai séparé les responsabilités, organisé les dashboards et structuré les accès selon les types d’utilisateurs.",
+                "Le projet utilise une approche positive basée sur les défis, la progression, les récompenses et un vocabulaire de marque plus ludique.",
             },
             {
               problem:
-                "Gérer la persistance des données, les sessions et l’authentification avec PHP/MySQL.",
+                "Transformer des actions écologiques simples en vraie logique applicative.",
               solution:
-                "J’ai utilisé PDO, des requêtes préparées et une organisation claire de la base de données pour sécuriser et structurer les échanges.",
+                "Chaque défi possède des règles : XP, CO₂ économisé, durée, limite quotidienne, difficulté, catégorie et validation enregistrée en base de données.",
             },
             {
               problem:
-                "Rendre le projet présentable malgré des éléments sensibles à nettoyer avant publication.",
+                "Gérer une progression utilisateur persistante avec PHP/MySQL.",
               solution:
-                "La prochaine étape est d’ajouter un .env, supprimer les identifiants, documenter le projet et créer un schéma BDD propre.",
+                "J’ai relié les actions validées à la base de données pour mettre à jour XP, monnaie, streak, badges, inventaire et niveau.",
+            },
+            {
+              problem:
+                "Travailler à plusieurs sur un projet avec des devs et des créatifs.",
+              solution:
+                "J’ai participé à l’intégration des maquettes, créé le dépôt Git et aidé à résoudre les conflits pour garder une base de travail commune.",
             },
           ],
         },
@@ -566,14 +591,24 @@ export const projects = [
           title: "Technical Focus",
           items: [
             {
-              title: "Sécurité",
+              title: "Base de données relationnelle",
               text:
-                "Le projet doit passer par une étape de sécurisation avant publication : variables d’environnement, suppression des identifiants et documentation.",
+                "La base MySQL structure les utilisateurs, entreprises, départements, défis, récompenses, badges, actions et inventaires afin de rendre la progression persistante.",
             },
             {
-              title: "Base de données",
+              title: "Gamification PHP/MySQL",
               text:
-                "Travail sur la structure relationnelle, les requêtes préparées et la gestion des données.",
+                "La validation d’un défi déclenche plusieurs mises à jour : ajout d’XP, monnaie virtuelle, CO₂ économisé, streak, progression multi-jours et déblocage potentiel de badges.",
+            },
+            {
+              title: "Authentification & rôles",
+              text:
+                "L’application utilise des sessions PHP et des rôles pour séparer les accès entre Shifter, Admin entreprise et Super-admin.",
+            },
+            {
+              title: "Travail d’équipe",
+              text:
+                "Le projet a été développé dans une équipe de 7 personnes : 3 développeurs et 4 créatifs. Mon rôle s’est concentré sur la partie application, la base de données, la gamification et l’intégration.",
             },
           ],
         },
@@ -581,19 +616,19 @@ export const projects = [
         gallery: {
           title: "Visual Gallery",
           text:
-            "Ajoute ici les captures des espaces user, admin, super-admin, dashboard et schéma BDD.",
+            "Les visuels doivent montrer à la fois l’expérience utilisateur gamifiée et la richesse fonctionnelle de l’application.",
           items: [
             {
-              label: "Dashboard",
+              label: "Dashboard Shifter",
               image: `${import.meta.env.BASE_URL}projects/shiftup/dashboard.jpg`,
             },
             {
-              label: "Admin",
-              image: `${import.meta.env.BASE_URL}projects/shiftup/admin.jpg`,
+              label: "Défis RSE",
+              image: `${import.meta.env.BASE_URL}projects/shiftup/defis.jpg`,
             },
             {
-              label: "Database",
-              image: `${import.meta.env.BASE_URL}projects/shiftup/database.jpg`,
+              label: "Boutique & récompenses",
+              image: `${import.meta.env.BASE_URL}projects/shiftup/shop.jpg`,
             },
           ],
         },
@@ -601,17 +636,18 @@ export const projects = [
         results: {
           title: "Final Form",
           items: [
-            "Projet fullstack plus avancé qu’un site vitrine.",
-            "Preuve de compétences PHP/MySQL.",
-            "Gestion de rôles et sessions.",
-            "Bonne base pour montrer une logique applicative.",
+            "Prototype fonctionnel d’application SaaS B2B autour de la RSE.",
+            "Application développée en PHP/MySQL avec authentification, rôles et sessions.",
+            "Base de données relationnelle complète pour gérer utilisateurs, défis, actions, badges et récompenses.",
+            "Système de gamification complet : XP, niveaux, streaks, monnaie, badges et boutique.",
+            "Projet pertinent pour montrer mes compétences fullstack, ma logique applicative et mon expérience en projet de groupe.",
           ],
         },
 
         lessons: {
           title: "XP Gained",
           text:
-            "Ce projet m’a permis de mieux comprendre la structure d’une application web dynamique, la séparation des rôles, la gestion de sessions et l’importance de documenter et sécuriser un projet avant publication.",
+            "Shift’Up m’a permis de passer d’une logique de site web à une vraie logique d’application : base de données, authentification, rôles, progression utilisateur, gamification, intégration de maquettes et travail en équipe. J’ai aussi compris l’importance de bien répartir les responsabilités entre développement, design, contenu et gestion de projet.",
         },
       },
 
