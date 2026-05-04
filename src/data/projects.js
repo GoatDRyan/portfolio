@@ -651,7 +651,210 @@ export const projects = [
         },
       },
 
-      en: null,
+      en: {
+        badge: "Group project · PHP · MySQL · CSR · Gamification",
+        fullTitle:
+          "Shift’Up — B2B SaaS prototype to engage employees in CSR actions",
+        subtitle:
+          "A gamified web application designed to turn a company’s CSR commitments into concrete, motivating and measurable actions for employees.",
+        backLabel: "Back to portfolio",
+        liveLabel: "Private / unpublished project",
+
+        info: {
+          title: "Power Stats",
+          items: [
+            ["Type", "B2B SaaS prototype"],
+            ["Context", "Group project"],
+            ["Team", "7 people · 3 developers · 4 creatives"],
+            ["Role", "Lead application & database developer"],
+            ["Year", "2026"],
+            ["Status", "Functional prototype"],
+          ],
+          stackTitle: "Stack",
+          stack: [
+            "PHP",
+            "MySQL",
+            "PDO",
+            "PHP Sessions",
+            "JavaScript",
+            "Chart.js",
+            "Tailwind CDN",
+            "HTML/CSS",
+          ],
+        },
+
+        overview: {
+          title: "Mission Brief",
+          text:
+            "Shift’Up is a B2B SaaS startup prototype designed to support companies in their ecological transition. The goal is to connect a company’s CSR commitments with employees’ daily actions through a motivating, collective and gamified application.",
+          cards: [
+            {
+              title: "Product objective",
+              text:
+                "Make ecology more accessible and engaging by turning CSR best practices into daily challenges, progression, badges, rankings and rewards.",
+            },
+            {
+              title: "Technical objective",
+              text:
+                "Build a dynamic web application with authentication, a relational database, user roles, challenges, gamification and persistent user progress.",
+            },
+          ],
+        },
+
+        role: {
+          title: "Hero Role",
+          text:
+            "Within a team of 7 people, I mainly developed the application logic and database of Shift’Up. The creative team produced the visual identity, assets and mockups, which I then largely integrated into the application.",
+          items: [
+            "Designed around 85% of the MySQL database.",
+            "Developed most of the user-facing application.",
+            "Built the login, registration and settings pages.",
+            "Created and wrote the CSR challenges, excluding the visuals.",
+            "Developed the gamification logic: XP, levels, streaks, badges, virtual currency and shop.",
+            "Integrated the mockups provided by the creative team.",
+            "Contributed lightly to the initial wireframe to support the mockup design.",
+            "Created the Git repository and helped resolve merge conflicts during the project.",
+            "Worked occasionally on the admin and super-admin areas, which were mainly developed by another developer.",
+          ],
+        },
+
+        process: {
+          title: "Origin Process",
+          items: [
+            {
+              title: "Concept & identity",
+              text:
+                "The project is built around a strong brand universe: Shifter, Daily Shift, Shift League, Shift Center, Shift Master and Shift Impact. The goal was to make CSR feel more positive, accessible and motivating.",
+            },
+            {
+              title: "Database",
+              text:
+                "I designed most of the data model: users, companies, departments, challenges, completed actions, badges, rewards, inventory and progression.",
+            },
+            {
+              title: "User journey",
+              text:
+                "I developed the main Shifter-side pages: authentication, registration, settings, challenges, shop and progression mechanics.",
+            },
+            {
+              title: "Gamification",
+              text:
+                "I implemented a reward system with XP, levels, streaks, badges, virtual currency and usable items to strengthen user engagement.",
+            },
+          ],
+        },
+
+        features: {
+          title: "Main Features",
+          items: [
+            "Authentication with login, registration and password recovery.",
+            "Role management: Shifter, company Admin and Super-admin.",
+            "CSR challenges with difficulty, category, duration, daily limit and validation.",
+            "XP, level and progression system.",
+            "User streak to encourage consistency.",
+            "Badges unlocked through specific actions.",
+            "Virtual currency earned by completing challenges.",
+            "Shop with rewards and usable items.",
+            "User inventory.",
+            "Relational MySQL database.",
+            "French / English bilingual interface.",
+            "Responsive integration based on creative mockups.",
+          ],
+        },
+
+        challenges: {
+          title: "Boss Fight",
+          items: [
+            {
+              problem:
+                "Creating a motivating CSR application without sounding moralizing or guilt-inducing.",
+              solution:
+                "The project uses a positive approach based on challenges, progression, rewards and a more playful brand vocabulary.",
+            },
+            {
+              problem:
+                "Turning simple ecological actions into real application logic.",
+              solution:
+                "Each challenge has its own rules: XP, CO₂ saved, duration, daily limit, difficulty, category and database validation.",
+            },
+            {
+              problem:
+                "Managing persistent user progression with PHP/MySQL.",
+              solution:
+                "I connected completed actions to the database so XP, currency, streaks, badges, inventory and levels could be updated dynamically.",
+            },
+            {
+              problem:
+                "Working as a team with both developers and creatives.",
+              solution:
+                "I helped integrate the mockups, created the Git repository and supported conflict resolution to keep a shared working base.",
+            },
+          ],
+        },
+
+        technical: {
+          title: "Technical Focus",
+          items: [
+            {
+              title: "Relational database",
+              text:
+                "The MySQL database structures users, companies, departments, challenges, rewards, badges, actions and inventories to make user progression persistent.",
+            },
+            {
+              title: "PHP/MySQL gamification",
+              text:
+                "Completing a challenge triggers several updates: XP gain, virtual currency, CO₂ saved, streak progression, multi-day progress and potential badge unlocks.",
+            },
+            {
+              title: "Authentication & roles",
+              text:
+                "The application uses PHP sessions and roles to separate access between Shifters, company Admins and Super-admins.",
+            },
+            {
+              title: "Teamwork",
+              text:
+                "The project was developed by a team of 7 people: 3 developers and 4 creatives. My role focused on the application, database, gamification and integration.",
+            },
+          ],
+        },
+
+        gallery: {
+          title: "Visual Gallery",
+          text:
+            "The visuals should show both the gamified user experience and the functional depth of the application.",
+          items: [
+            {
+              label: "Shifter Dashboard",
+              image: `${import.meta.env.BASE_URL}projects/shiftup/dashboard.jpg`,
+            },
+            {
+              label: "CSR Challenges",
+              image: `${import.meta.env.BASE_URL}projects/shiftup/defis.jpg`,
+            },
+            {
+              label: "Shop & Rewards",
+              image: `${import.meta.env.BASE_URL}projects/shiftup/shop.jpg`,
+            },
+          ],
+        },
+
+        results: {
+          title: "Final Form",
+          items: [
+            "Functional B2B SaaS application prototype focused on CSR.",
+            "Application built with PHP/MySQL, authentication, roles and sessions.",
+            "Complete relational database to manage users, challenges, actions, badges and rewards.",
+            "Full gamification system: XP, levels, streaks, currency, badges and shop.",
+            "Relevant project to showcase my fullstack skills, application logic and group project experience.",
+          ],
+        },
+
+        lessons: {
+          title: "XP Gained",
+          text:
+            "Shift’Up helped me move from a website mindset to a real application mindset: database, authentication, roles, user progression, gamification, mockup integration and teamwork. It also taught me the importance of clearly splitting responsibilities between development, design, content and project management.",
+        },
+      },
     },
   },
 

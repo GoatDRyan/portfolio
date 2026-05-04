@@ -1,0 +1,151 @@
+@keyframes comicTwinkle {
+  0% {
+    opacity: 0.25;
+    transform: scale(0.75) rotate(0deg);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1.35) rotate(8deg);
+  }
+
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85) rotate(0deg);
+  }
+}
+
+@keyframes comicPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+    filter: brightness(1.18);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes comicDrift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--comic-rotate, -24deg));
+  }
+
+  50% {
+    transform: translate3d(-18px, -10px, 0) rotate(var(--comic-rotate, -24deg));
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--comic-rotate, -24deg));
+  }
+}
+
+@keyframes comicDriftReverse {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--comic-rotate, -24deg));
+  }
+
+  50% {
+    transform: translate3d(18px, 10px, 0) rotate(var(--comic-rotate, -24deg));
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--comic-rotate, -24deg));
+  }
+}
+
+@keyframes comicFloat {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translate3d(0, -18px, 0) rotate(4deg);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+}
+
+@keyframes comicFloatSoft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(1deg);
+  }
+
+  50% {
+    transform: translate3d(10px, -12px, 0) rotate(-4deg);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(1deg);
+  }
+}
+
+@keyframes comicPop {
+  0% {
+    transform: scale(1) rotate(var(--comic-word-rotate, -8deg));
+  }
+
+  45% {
+    transform: scale(1.08) rotate(calc(var(--comic-word-rotate, -8deg) + 2deg));
+  }
+
+  100% {
+    transform: scale(1) rotate(var(--comic-word-rotate, -8deg));
+  }
+}
+
+.animate-comic-twinkle {
+  animation: comicTwinkle 3.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-comic-pulse {
+  animation: comicPulse 3.2s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+.animate-comic-drift {
+  animation: comicDrift 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-comic-drift-reverse {
+  animation: comicDriftReverse 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-comic-float {
+  animation: comicFloat 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-comic-float-soft {
+  animation: comicFloatSoft 8.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-comic-pop {
+  animation: comicPop 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-comic-twinkle,
+  .animate-comic-pulse,
+  .animate-comic-drift,
+  .animate-comic-drift-reverse,
+  .animate-comic-float,
+  .animate-comic-float-soft,
+  .animate-comic-pop {
+    animation: none;
+  }
+}
