@@ -107,7 +107,10 @@ function ProjectCardContent({
   if (!card) return null;
 
   const tags = Array.isArray(card.tags) ? card.tags : [];
-  const isMobile = variant === "mobile";
+  const isMobileStack = variant === "mobileStack";
+  const isDesktop = variant === "desktop";
+  const visibleTags = isMobileStack ? tags.slice(0, 4) : tags;
+  const hiddenTagsCount = tags.length - visibleTags.length;
 
   const fallbackBackground = `
     radial-gradient(circle at 30% 25%, ${project.accent}77, transparent 34%),
@@ -118,18 +121,23 @@ function ProjectCardContent({
     <article
       className={[
         "relative w-full overflow-visible rounded-[2rem] border-[5px] border-black bg-foreground p-2 text-background shadow-[16px_16px_0_rgba(0,0,0,0.9)]",
-        isMobile ? "h-auto max-w-[520px]" : "h-full",
+        isMobileStack
+          ? "h-full max-h-[calc(100svh-7.5rem)] max-w-[430px]"
+          : "h-full",
       ].join(" ")}
     >
       <ComicBurst
-        className="-right-4 -top-7 z-30 rotate-12 sm:-right-5 sm:-top-8"
+        className={[
+          "-right-4 -top-7 z-30 rotate-12",
+          isMobileStack ? "" : "sm:-right-5 sm:-top-8",
+        ].join(" ")}
         color={project.accent}
-        size={isMobile ? 78 : 98}
+        size={isMobileStack ? 72 : 98}
       >
         {project.number}
       </ComicBurst>
 
-      {!isMobile && (
+      {isDesktop && (
         <SpeedLines
           className="-left-10 top-10 z-20 hidden -rotate-12 opacity-90 lg:block"
           color={project.accent}
@@ -139,7 +147,7 @@ function ProjectCardContent({
       <div
         className={[
           "relative overflow-hidden rounded-[1.55rem] border-[5px] border-black bg-background text-foreground",
-          isMobile ? "h-auto" : "h-full",
+          isMobileStack ? "h-full" : "h-full",
         ].join(" ")}
       >
         <Halftone
@@ -155,15 +163,17 @@ function ProjectCardContent({
         <div
           className={[
             "grid",
-            isMobile ? "h-auto" : "h-full lg:grid-cols-[1.04fr_0.96fr]",
+            isMobileStack
+              ? "h-full grid-rows-[auto_1fr]"
+              : "h-full lg:grid-cols-[1.04fr_0.96fr]",
           ].join(" ")}
         >
           {/* IMAGE */}
           <div
             className={[
               "group relative overflow-hidden border-b-[5px] border-black",
-              isMobile
-                ? "aspect-[4/3] min-h-[220px]"
+              isMobileStack
+                ? "h-[25svh] min-h-[145px] max-h-[210px]"
                 : "min-h-[240px] lg:min-h-full lg:border-b-0 lg:border-r-[5px]",
             ].join(" ")}
           >
@@ -192,23 +202,38 @@ function ProjectCardContent({
 
             <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
 
-            <div className="absolute left-4 top-4 z-30 rotate-[-3deg] rounded-2xl border-[4px] border-black bg-comic-yellow px-4 py-2 text-background shadow-[6px_6px_0_rgba(0,0,0,0.8)] sm:left-5 sm:top-5 sm:px-5 sm:py-3">
+            <div
+              className={[
+                "absolute left-4 top-4 z-30 rotate-[-3deg] rounded-2xl border-[4px] border-black bg-comic-yellow text-background shadow-[6px_6px_0_rgba(0,0,0,0.8)]",
+                isMobileStack ? "px-3 py-2" : "px-4 py-2 sm:px-5 sm:py-3",
+              ].join(" ")}
+            >
               <p className="text-[0.55rem] font-black uppercase tracking-[0.25em]">
                 Issue
               </p>
-              <p className="font-display text-3xl uppercase leading-none sm:text-4xl">
+              <p
+                className={[
+                  "font-display uppercase leading-none",
+                  isMobileStack ? "text-3xl" : "text-3xl sm:text-4xl",
+                ].join(" ")}
+              >
                 {project.number}
               </p>
             </div>
 
             <div
-              className="absolute bottom-4 right-4 z-30 max-w-[82%] rotate-2 rounded-full border-[4px] border-black px-4 py-2 text-[0.65rem] font-black uppercase tracking-[0.12em] text-background shadow-[6px_6px_0_rgba(0,0,0,0.8)] sm:bottom-5 sm:right-5 sm:px-5 sm:py-3 sm:text-sm"
+              className={[
+                "absolute bottom-4 right-4 z-30 max-w-[82%] rotate-2 rounded-full border-[4px] border-black font-black uppercase tracking-[0.12em] text-background shadow-[6px_6px_0_rgba(0,0,0,0.8)]",
+                isMobileStack
+                  ? "px-3 py-2 text-[0.58rem]"
+                  : "px-4 py-2 text-[0.65rem] sm:px-5 sm:py-3 sm:text-sm",
+              ].join(" ")}
               style={{ backgroundColor: project.accent }}
             >
               {card.type}
             </div>
 
-            {!isMobile && (
+            {isDesktop && (
               <div className="absolute bottom-5 left-5 z-30 hidden max-w-[55%] rounded-2xl border-[3px] border-black bg-foreground px-4 py-3 text-background shadow-[5px_5px_0_rgba(0,0,0,0.75)] sm:block">
                 <p className="font-display text-2xl uppercase leading-none text-comic-red [-webkit-text-stroke:1px_rgba(0,0,0,0.8)]">
                   {labels.previewLabel}
@@ -221,10 +246,10 @@ function ProjectCardContent({
           <div
             className={[
               "relative overflow-hidden",
-              isMobile ? "p-5 sm:p-6" : "p-5 sm:p-7 lg:p-10",
+              isMobileStack ? "p-4" : "p-5 sm:p-7 lg:p-10",
             ].join(" ")}
           >
-            {!isMobile && (
+            {isDesktop && (
               <div className="pointer-events-none absolute right-5 top-5 hidden sm:block">
                 <motion.div
                   animate={{ y: [0, -8, 0], rotate: [0, 5, 0] }}
@@ -242,44 +267,61 @@ function ProjectCardContent({
             <div
               className={[
                 "relative z-10 flex flex-col",
-                isMobile ? "justify-start" : "h-full justify-center",
+                isMobileStack ? "h-full justify-start" : "h-full justify-center",
               ].join(" ")}
             >
-              <div className="mb-4 inline-flex w-fit rotate-[-2deg] rounded-full border-[3px] border-black bg-foreground px-4 py-2 text-[0.65rem] font-black uppercase tracking-[0.22em] text-background shadow-[5px_5px_0_rgba(0,0,0,0.75)] sm:text-xs">
+              <div
+                className={[
+                  "mb-3 inline-flex w-fit rotate-[-2deg] rounded-full border-[3px] border-black bg-foreground px-4 py-2 font-black uppercase tracking-[0.22em] text-background shadow-[5px_5px_0_rgba(0,0,0,0.75)]",
+                  isMobileStack ? "text-[0.58rem]" : "text-xs",
+                ].join(" ")}
+              >
                 {labels.projectPlanet}
               </div>
 
               <h3
                 className={[
-                  "break-words font-display uppercase leading-[0.78] text-foreground drop-shadow-[6px_6px_0_rgba(0,0,0,0.88)] [-webkit-text-stroke:2px_rgba(0,0,0,0.92)]",
-                  isMobile
-                    ? "text-[clamp(3rem,17vw,5.5rem)]"
-                    : "text-[clamp(3rem,6.5vw,6.4rem)]",
+                  "break-words font-display uppercase text-foreground drop-shadow-[6px_6px_0_rgba(0,0,0,0.88)] [-webkit-text-stroke:2px_rgba(0,0,0,0.92)]",
+                  isMobileStack
+                    ? "text-[clamp(2.8rem,15vw,4.7rem)] leading-[0.78]"
+                    : "text-[clamp(3rem,6.5vw,6.4rem)] leading-[0.78]",
                 ].join(" ")}
               >
                 {project.title}
               </h3>
 
-              <div className="relative mt-6 rounded-[1.45rem] border-[4px] border-black bg-foreground p-4 text-background shadow-[8px_8px_0_rgba(0,0,0,0.8)] sm:p-5">
+              <div
+                className={[
+                  "relative mt-4 rounded-[1.35rem] border-[4px] border-black bg-foreground text-background shadow-[8px_8px_0_rgba(0,0,0,0.8)]",
+                  isMobileStack ? "p-3" : "p-4 sm:p-5",
+                ].join(" ")}
+              >
                 <p
                   className={[
-                    "text-sm font-semibold leading-relaxed sm:text-base lg:text-lg",
-                    isMobile ? "line-clamp-5" : "line-clamp-4 sm:line-clamp-none",
+                    "font-semibold leading-relaxed",
+                    isMobileStack
+                      ? "line-clamp-3 text-xs"
+                      : "line-clamp-4 text-sm sm:line-clamp-none sm:text-base lg:text-lg",
                   ].join(" ")}
                 >
                   {card.description}
                 </p>
 
                 <div
-                  className="absolute -bottom-7 left-10 h-8 w-8 bg-foreground"
+                  className="absolute -bottom-6 left-8 h-7 w-7 bg-foreground"
                   style={{
                     clipPath: "polygon(0 0, 100% 0, 18% 100%)",
                   }}
                 />
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-2 sm:gap-3">
-                {tags.map((tag, tagIndex) => {
+              <div
+                className={[
+                  "flex flex-wrap",
+                  isMobileStack ? "mt-6 gap-2" : "mt-8 gap-2 sm:gap-3",
+                ].join(" ")}
+              >
+                {visibleTags.map((tag, tagIndex) => {
                   const tagColors = [
                     "bg-comic-yellow text-background",
                     "bg-comic-green text-background",
@@ -295,7 +337,10 @@ function ProjectCardContent({
                         rotate: tagIndex % 2 === 0 ? -2 : 2,
                       }}
                       className={[
-                        "rounded-full border-[3px] border-black px-3 py-1.5 text-[0.7rem] font-black uppercase shadow-[4px_4px_0_rgba(0,0,0,0.75)] sm:px-4 sm:py-2 sm:text-sm",
+                        "rounded-full border-[3px] border-black font-black uppercase shadow-[4px_4px_0_rgba(0,0,0,0.75)]",
+                        isMobileStack
+                          ? "px-2.5 py-1 text-[0.58rem]"
+                          : "px-3 py-1.5 text-[0.7rem] sm:px-4 sm:py-2 sm:text-sm",
                         tagColors[tagIndex % tagColors.length],
                       ].join(" ")}
                     >
@@ -303,9 +348,20 @@ function ProjectCardContent({
                     </motion.span>
                   );
                 })}
+
+                {isMobileStack && hiddenTagsCount > 0 && (
+                  <span className="rounded-full border-[3px] border-black bg-background px-2.5 py-1 text-[0.58rem] font-black uppercase text-foreground shadow-[4px_4px_0_rgba(0,0,0,0.75)]">
+                    +{hiddenTagsCount}
+                  </span>
+                )}
               </div>
 
-              <div className="mt-7 flex flex-wrap gap-4">
+              <div
+                className={[
+                  "flex flex-wrap gap-3",
+                  isMobileStack ? "mt-auto pt-5" : "mt-7",
+                ].join(" ")}
+              >
                 {project.page && (
                   <motion.div
                     whileHover={{ y: -5, scale: 1.03 }}
@@ -313,7 +369,12 @@ function ProjectCardContent({
                   >
                     <Link
                       to={project.page}
-                      className="group inline-flex items-center justify-center gap-3 rounded-full border-[4px] border-black bg-comic-yellow px-5 py-3 text-xs font-black text-background shadow-[8px_8px_0_rgba(0,0,0,0.85)] transition-all duration-200 hover:bg-transparent hover:text-foreground hover:shadow-[11px_11px_0_rgba(0,0,0,0.85)] sm:px-6 sm:text-base"
+                      className={[
+                        "group inline-flex items-center justify-center gap-2 rounded-full border-[4px] border-black bg-comic-yellow font-black text-background shadow-[8px_8px_0_rgba(0,0,0,0.85)] transition-all duration-200 hover:bg-transparent hover:text-foreground hover:shadow-[11px_11px_0_rgba(0,0,0,0.85)]",
+                        isMobileStack
+                          ? "px-4 py-2.5 text-[0.7rem]"
+                          : "px-5 py-3 text-xs sm:px-6 sm:text-base",
+                      ].join(" ")}
                     >
                       {labels.detailButton}
                       <span className="transition-transform duration-200 group-hover:translate-x-1">
@@ -331,7 +392,12 @@ function ProjectCardContent({
                     rel={link.external ? "noreferrer" : undefined}
                     whileHover={{ y: -5, scale: 1.03 }}
                     whileTap={{ scale: 0.96 }}
-                    className="group inline-flex items-center justify-center gap-3 rounded-full border-[4px] border-black px-5 py-3 text-xs font-black text-background shadow-[8px_8px_0_rgba(0,0,0,0.85)] transition-all duration-200 hover:shadow-[11px_11px_0_rgba(0,0,0,0.85)] sm:px-6 sm:text-base"
+                    className={[
+                      "group inline-flex items-center justify-center gap-2 rounded-full border-[4px] border-black font-black text-background shadow-[8px_8px_0_rgba(0,0,0,0.85)] transition-all duration-200 hover:shadow-[11px_11px_0_rgba(0,0,0,0.85)]",
+                      isMobileStack
+                        ? "px-4 py-2.5 text-[0.7rem]"
+                        : "px-5 py-3 text-xs sm:px-6 sm:text-base",
+                    ].join(" ")}
                     style={{
                       backgroundColor: project.accent,
                     }}
@@ -347,7 +413,7 @@ function ProjectCardContent({
           </div>
         </div>
 
-        {!isMobile && (
+        {isDesktop && (
           <div
             className="relative hidden overflow-hidden border-t-[5px] border-black py-3 lg:block"
             style={{ backgroundColor: project.accent }}
@@ -377,31 +443,41 @@ function ProjectCardContent({
   );
 }
 
-function MobileProjectCard({ project, index, labels, language }) {
+function MobileStackCard({ index, total, project, progress, labels, language }) {
+  const targetScale = 1 - (total - index) * 0.025;
+  const rangeStart = index * (1 / total);
+
+  const scale = useTransform(progress, [rangeStart, 1], [1, targetScale]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 42, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{
-        duration: 0.7,
-        delay: index * 0.08,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="flex justify-center px-5 py-8 sm:px-8"
-    >
-      <ProjectCardContent
-        project={project}
-        index={index}
-        labels={labels}
-        language={language}
-        variant="mobile"
-      />
-    </motion.div>
+    <div className="sticky top-24 flex h-[calc(100svh-5.5rem)] items-start justify-center px-5 pb-10 sm:px-8">
+      <motion.div
+        style={{
+          scale,
+          top: `${index * 10}px`,
+        }}
+        className="relative h-[calc(100svh-8rem)] w-full max-w-[430px] origin-top"
+      >
+        <ProjectCardContent
+          project={project}
+          index={index}
+          labels={labels}
+          language={language}
+          variant="mobileStack"
+        />
+      </motion.div>
+    </div>
   );
 }
 
-function StackCard({ index, total, project, progress, labels, language }) {
+function DesktopStackCard({
+  index,
+  total,
+  project,
+  progress,
+  labels,
+  language,
+}) {
   const targetScale = 1 - (total - index) * 0.045;
   const rangeStart = index * (1 / total);
 
@@ -472,7 +548,7 @@ function ProjectsSection() {
             {t.eyebrow}
           </span>
 
-          <h2 className="font-display text-[clamp(8rem,14vw,9.5rem)] uppercase leading-[0.76] text-comic-red drop-shadow-[8px_8px_0_rgba(0,0,0,0.88)] [-webkit-text-stroke:2px_rgba(0,0,0,0.92)]">
+          <h2 className="font-display text-[clamp(4.4rem,14vw,9.5rem)] uppercase leading-[0.76] text-comic-red drop-shadow-[8px_8px_0_rgba(0,0,0,0.88)] [-webkit-text-stroke:2px_rgba(0,0,0,0.92)]">
             {t.titleLine1}
             <br />
             <span className="text-comic-yellow">{t.titleLine2}</span>
@@ -488,23 +564,25 @@ function ProjectsSection() {
         </motion.div>
       </div>
 
-      {/* Mobile / tablet: normal readable cards */}
-      <div className="lg:hidden">
+      {/* Mobile: sticky stack compact */}
+      <div className="block w-full lg:hidden">
         {projects.map((project, index) => (
-          <MobileProjectCard
+          <MobileStackCard
             key={project.slug}
-            project={project}
             index={index}
+            total={projects.length}
+            project={project}
+            progress={scrollYProgress}
             labels={labels}
             language={language}
           />
         ))}
       </div>
 
-      {/* Desktop: sticky stack cards */}
+      {/* Desktop: sticky stack full */}
       <div className="hidden w-full lg:block">
         {projects.map((project, index) => (
-          <StackCard
+          <DesktopStackCard
             key={project.slug}
             index={index}
             total={projects.length}
