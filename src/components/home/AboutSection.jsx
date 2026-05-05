@@ -54,11 +54,11 @@ function AboutSection() {
 
           <motion.h2
             variants={fadeUp}
-            className="font-display text-[clamp(8rem,13vw,9rem)] uppercase leading-[0.8] text-comic-yellow drop-shadow-[7px_7px_0_rgba(0,0,0,0.85)] [-webkit-text-stroke:2px_rgba(0,0,0,0.9)]"
+            className="font-display text-[clamp(8rem,13vw,9rem)] uppercase leading-[0.8] text-comic-green drop-shadow-[7px_7px_0_rgba(0,0,0,0.85)] [-webkit-text-stroke:2px_rgba(0,0,0,0.9)]"
           >
             {t.titleLine1}
             <br />
-            {t.titleLine2}
+            <span className="text-comic-yellow">{t.titleLine2}</span>
           </motion.h2>
         </motion.div>
 
