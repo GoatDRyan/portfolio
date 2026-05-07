@@ -173,6 +173,7 @@ function HeroSection() {
           >
             <motion.a
               href="#projects"
+              role="button"
               whileHover={{
                 y: -5,
                 scale: 1.03,
@@ -190,6 +191,7 @@ function HeroSection() {
 
             <motion.a
               href="#about"
+              role="button"
               whileHover={{
                 y: -5,
                 scale: 1.03,

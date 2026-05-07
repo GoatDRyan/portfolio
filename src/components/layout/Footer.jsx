@@ -191,7 +191,7 @@ function Footer() {
                 </div>
               </div>
 
-              <div className="rounded-[1.75rem] border-[4px] border-black bg-comic-blue p-6 text-foreground shadow-[8px_8px_0_rgba(0,0,0,0.75)]">
+              <address className="rounded-[1.75rem] border-[4px] border-black bg-comic-blue p-6 text-foreground shadow-[8px_8px_0_rgba(0,0,0,0.75)]">
                 <p className="text-xs font-black uppercase tracking-[0.25em] text-foreground/65">
                   {t.socialTitle}
                 </p>
@@ -219,7 +219,7 @@ function Footer() {
                     Web · Design · Story
                   </p>
                 </div>
-              </div>
+              </address>
             </div>
           </div>
         </motion.div>
